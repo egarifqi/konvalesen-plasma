@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -12,18 +12,20 @@ import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/teamStyle.js";
 
-import team1 from "assets/img/faces/avatar.jpg";
-import team2 from "assets/img/faces/christian.jpg";
-import team3 from "assets/img/faces/kendall.jpg";
+import cari from "assets/img/cari.jpg";
+import daftar from "assets/img/daftar.jpg";
+import hubungi from "assets/img/hubungi.jpg";
+import infokan from "assets/img/infokan.jpg";
+import bantu from "assets/img/bantu.jpg";
 
 const useStyles = makeStyles(styles);
 
 export default function TeamSection() {
   const classes = useStyles();
+  const [showed, setShowed] = useState("mencari");
   const imageClasses = classNames(
     classes.imgRaised,
     classes.imgRoundedCircle,
@@ -31,133 +33,151 @@ export default function TeamSection() {
   );
   return (
     <div className={classes.section}>
-      <h2 className={classes.title}>Here is our team</h2>
-      <div>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card plain>
-              <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
-                <img src={team1} alt="..." className={imageClasses} />
-              </GridItem>
-              <h4 className={classes.cardTitle}>
-                Gigi Hadid
-                <br />
-                <small className={classes.smallTitle}>Model</small>
-              </h4>
-              <CardBody>
-                <p className={classes.description}>
-                  You can write here details about one of your team members. You
-                  can give more details about what they do. Feel free to add
-                  some <a href="#pablo">links</a> for people to be able to
-                  follow them outside the site.
-                </p>
-              </CardBody>
-              <CardFooter className={classes.justifyCenter}>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-twitter"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-instagram"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-facebook"} />
-                </Button>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card plain>
-              <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
-                <img src={team2} alt="..." className={imageClasses} />
-              </GridItem>
-              <h4 className={classes.cardTitle}>
-                Christian Louboutin
-                <br />
-                <small className={classes.smallTitle}>Designer</small>
-              </h4>
-              <CardBody>
-                <p className={classes.description}>
-                  You can write here details about one of your team members. You
-                  can give more details about what they do. Feel free to add
-                  some <a href="#pablo">links</a> for people to be able to
-                  follow them outside the site.
-                </p>
-              </CardBody>
-              <CardFooter className={classes.justifyCenter}>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-twitter"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-linkedin"} />
-                </Button>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card plain>
-              <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
-                <img src={team3} alt="..." className={imageClasses} />
-              </GridItem>
-              <h4 className={classes.cardTitle}>
-                Kendall Jenner
-                <br />
-                <small className={classes.smallTitle}>Model</small>
-              </h4>
-              <CardBody>
-                <p className={classes.description}>
-                  You can write here details about one of your team members. You
-                  can give more details about what they do. Feel free to add
-                  some <a href="#pablo">links</a> for people to be able to
-                  follow them outside the site.
-                </p>
-              </CardBody>
-              <CardFooter className={classes.justifyCenter}>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-twitter"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-instagram"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-facebook"} />
-                </Button>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
+      <div style={{ marginBottom: "64px" }}>
+        <Button
+          style={
+            showed === "mencari"
+              ? { background: "#DA251C", color: "white" }
+              : { background: "rgba(196, 196, 196, 0.5)", color: "#DA251C" }
+          }
+          onClick={() => setShowed("mencari")}
+        >
+          Saya ingin mencari pendonor
+        </Button>
+        <Button
+          style={
+            showed === "menjadi"
+              ? { background: "#DA251C", color: "white" }
+              : { background: "rgba(196, 196, 196, 0.5)", color: "#DA251C" }
+          }
+          onClick={() => setShowed("menjadi")}
+        >
+          Saya ingin menjadi pendonor
+        </Button>
       </div>
+      {showed === "mencari" ? (
+        <>
+          <div>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card plain>
+                  <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                    <img src={cari} alt="..." className={imageClasses} />
+                  </GridItem>
+                  <h4 className={classes.cardTitle}>Cari</h4>
+                  <CardBody>
+                    <p
+                      className={classes.description}
+                      style={{ color: "black" }}
+                    >
+                      Cari profil pendonor yang dapat membantu Anda / kerabat
+                      Anda melalui tabel dibawah ini
+                    </p>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card plain>
+                  <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                    <img src={daftar} alt="..." className={imageClasses} />
+                  </GridItem>
+                  <h4 className={classes.cardTitle}>Daftar</h4>
+                  <CardBody>
+                    <p
+                      className={classes.description}
+                      style={{ color: "black" }}
+                    >
+                      Daftarkan diri Anda melalui form dibawah apabila Anda
+                      masih belum menemui pendonor yang tepat
+                    </p>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card plain>
+                  <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                    <img src={hubungi} alt="..." className={imageClasses} />
+                  </GridItem>
+                  <h4 className={classes.cardTitle}>Hubungi</h4>
+                  <CardBody>
+                    <p
+                      className={classes.description}
+                      style={{ color: "black" }}
+                    >
+                      Hubungi pendonor untuk memastikan ketersediaan menjadi
+                      pendonor dan komunikasikan prosedur pendonoran plasma
+                      konvalesen
+                    </p>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </GridContainer>
+          </div>
+        </>
+      ) : (
+        <>
+          <div>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card plain>
+                  <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                    <img src={cari} alt="..." className={imageClasses} />
+                  </GridItem>
+                  <h4 className={classes.cardTitle}>Cari</h4>
+                  <CardBody>
+                    <p
+                      className={classes.description}
+                      style={{ color: "black" }}
+                    >
+                      Daftarkan diri Anda menjadi pendonor. Pastikan bahwa
+                      kondisi diri Anda cukup baik untuk menjadi pendonor
+                    </p>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card plain>
+                  <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                    <img
+                      src={infokan}
+                      width="320px"
+                      height="320px"
+                      alt="..."
+                      className={imageClasses}
+                    />
+                  </GridItem>
+                  <h4 className={classes.cardTitle}>Informasikan</h4>
+                  <CardBody>
+                    <p
+                      className={classes.description}
+                      style={{ color: "black" }}
+                    >
+                      Informasikan ketersediaan Anda menjadi pendonor
+                    </p>
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <Card plain>
+                  <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                    <img src={bantu} alt="..." className={imageClasses} />
+                  </GridItem>
+                  <h4 className={classes.cardTitle}>Bantu</h4>
+                  <CardBody>
+                    <p
+                      className={classes.description}
+                      style={{ color: "black" }}
+                    >
+                      Bantu donorkan plasma kovalesen Anda apabila ada yang
+                      menghubungi Anda untuk meminta bantuan
+                    </p>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </GridContainer>
+          </div>
+        </>
+      )}
     </div>
   );
 }

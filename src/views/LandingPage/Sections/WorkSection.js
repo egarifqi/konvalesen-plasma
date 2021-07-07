@@ -67,7 +67,8 @@ export default function WorkSection() {
   const [listBloodType] = useState(["A", "B", "AB", "0"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const [listProvinsi, setListProvinsi] = useState([]);
-  const [expanded, setExpanded] = useState(null);
+  const [pendonorExpanded, setPendonorExpanded] = useState(false);
+  const [pencariExpanded, setPencariExpanded] = useState(true);
   const classes = useStyles();
 
   const { insertRow: insertNeedRow } = qoreContext
@@ -259,30 +260,23 @@ export default function WorkSection() {
   return (
     <div className={classes.section}>
       <Accordion
-        expanded={expanded === "mencari"}
-        onChange={() => {
-          if (expanded === "mencari") {
-            setExpanded(null);
-          } else {
-            setExpanded("mencari");
-          }
-        }}
+        id="pencari"
+        expanded={pencariExpanded}
+        onChange={() => setPencariExpanded(!pencariExpanded)}
         style={{ borderRadius: "10px", marginBottom: "32px" }}
       >
         <AccordionSummary
           expandIcon={
             <ExpandMoreIcon
               style={
-                expanded === "mencari"
-                  ? { color: "white" }
-                  : { color: "#DA251C" }
+                pencariExpanded ? { color: "white" } : { color: "#DA251C" }
               }
             />
           }
           aria-controls="panel1bh-content"
           id="panel1bh-header"
           style={
-            expanded === "mencari"
+            pencariExpanded
               ? { background: "#DA251C", borderRadius: "10px" }
               : { background: "rgba(196, 196, 196, 0.5)", borderRadius: "10px" }
           }
@@ -290,7 +284,7 @@ export default function WorkSection() {
           <Typography
             className={classes.heading}
             style={
-              expanded === "mencari"
+              pencariExpanded
                 ? {
                     textAlign: "center",
                     color: "white",
@@ -508,30 +502,23 @@ export default function WorkSection() {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === "menjadi"}
-        onChange={() => {
-          if (expanded === "menjadi") {
-            setExpanded(null);
-          } else {
-            setExpanded("menjadi");
-          }
-        }}
+        id="pendonor"
+        expanded={pendonorExpanded}
+        onChange={() => setPendonorExpanded(!pendonorExpanded)}
         style={{ borderRadius: "10px" }}
       >
         <AccordionSummary
           expandIcon={
             <ExpandMoreIcon
               style={
-                expanded === "menjadi"
-                  ? { color: "white" }
-                  : { color: "#DA251C" }
+                pendonorExpanded ? { color: "white" } : { color: "#DA251C" }
               }
             />
           }
           aria-controls="panel1bh-content"
           id="panel1bh-header"
           style={
-            expanded === "menjadi"
+            pendonorExpanded
               ? { background: "#DA251C", borderRadius: "10px" }
               : { background: "rgba(196, 196, 196, 0.5)", borderRadius: "10px" }
           }
@@ -539,7 +526,7 @@ export default function WorkSection() {
           <Typography
             className={classes.heading}
             style={
-              expanded === "menjadi"
+              pendonorExpanded
                 ? {
                     textAlign: "center",
                     color: "white",
