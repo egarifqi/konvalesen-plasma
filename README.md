@@ -186,8 +186,8 @@ material-kit-react
         │   ├── LandingPage.js
         │   └── Sections
         │       ├── ProductSection.js
-        │       ├── TeamSection.js
-        │       └── WorkSection.js
+        │       ├── HowToMenjadiSection.js
+        │       └── FormMencariSection.js
         ├── LoginPage
         │   └── LoginPage.js
         └── ProfilePage

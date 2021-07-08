@@ -30,19 +30,8 @@ import styles from "assets/jss/material-kit-react/views/landingPageSections/work
 
 const useStyles = makeStyles(styles);
 
-export default function WorkSection() {
+export default function FormMencariSection() {
   const newLocal = null;
-  const [needName, setNeedName] = useState(newLocal);
-  const [needPhone, setNeedPhone] = useState(newLocal);
-  const [needSocialMedia, setNeedSocialMedia] = useState(newLocal);
-  const [needBloodType, setNeedBloodType] = useState("");
-  const [needRhesus, setNeedRhesus] = useState("");
-  const [needProvinsi, setNeedProvinsi] = useState("");
-  const [needKota, setNeedKota] = useState("");
-  const [listNeedKota, setListNeedKota] = useState([]);
-  const [needLoading, setNeedLoading] = useState(false);
-  const [needMessage, setNeedMessage] = useState("");
-  const [needMessageType, setNeedMessageType] = useState("");
 
   const [becomeName, setBecomeName] = useState(newLocal);
   const [becomePhone, setBecomePhone] = useState(newLocal);
@@ -67,13 +56,8 @@ export default function WorkSection() {
   const [listBloodType] = useState(["A", "B", "AB", "0"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const [listProvinsi, setListProvinsi] = useState([]);
-  const [pendonorExpanded, setPendonorExpanded] = useState(false);
-  const [pencariExpanded, setPencariExpanded] = useState(true);
+  const [pendonorExpanded, setPendonorExpanded] = useState(true);
   const classes = useStyles();
-
-  const { insertRow: insertNeedRow } = qoreContext
-    .view("allMencari")
-    .useInsertRow();
 
   const { insertRow: insertBecomeRow } = qoreContext
     .view("allMenjadi")
@@ -92,22 +76,6 @@ export default function WorkSection() {
 
   useEffect(async () => {
     var tempListKota = [];
-    if (needProvinsi) {
-      await axios
-        .get(
-          "https://training-api.pti-cosmetics.com/kabupaten_kota?id_prov=eq." +
-            needProvinsi.id
-        )
-        .then((result) => {
-          tempListKota = result.data;
-        });
-    }
-
-    setListNeedKota(tempListKota);
-  }, [needProvinsi]);
-
-  useEffect(async () => {
-    var tempListKota = [];
     if (becomeProvinsi) {
       await axios
         .get(
@@ -120,57 +88,6 @@ export default function WorkSection() {
 
     setListBecomeKota(tempListKota);
   }, [becomeProvinsi]);
-
-  async function submitPencariDonor() {
-    setNeedLoading(true);
-
-    if (
-      needName === "" ||
-      needName === null ||
-      needBloodType === "" ||
-      needBloodType === null ||
-      needRhesus === "" ||
-      needProvinsi === "" ||
-      needKota === ""
-    ) {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage("Mohon isi kolom data diri dengan lengkap");
-    } else if (
-      (needPhone === null || needPhone === "") &&
-      (needSocialMedia === null || needSocialMedia === "")
-    ) {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage("Mohon isi setidaknya nomor HP atau link social media");
-    } else {
-      var item = {
-        name: needName,
-        bloodType: needBloodType,
-        rhesus: needRhesus,
-        provinsi: needProvinsi.nama,
-        kota: needKota.nama,
-        phone: needPhone,
-        socialMedia: needSocialMedia,
-      };
-
-      await insertNeedRow(item);
-      setNeedLoading(false);
-      setNeedMessage("Data berhasil disubmit");
-      setNeedMessageType("success");
-      setNeedName("");
-      setNeedBloodType("");
-      setNeedRhesus("");
-      setNeedProvinsi("");
-      setNeedKota("");
-      setNeedPhone("");
-      setNeedSocialMedia("");
-      setTimeout(() => {
-        setNeedMessage("");
-        window.location.reload();
-      }, 5000);
-    }
-  }
 
   async function submitMenjadiPendonor() {
     setBecomeLoading(true);
@@ -259,248 +176,6 @@ export default function WorkSection() {
 
   return (
     <div className={classes.section}>
-      <Accordion
-        id="pencari"
-        expanded={pencariExpanded}
-        onChange={() => setPencariExpanded(!pencariExpanded)}
-        style={{ borderRadius: "10px", marginBottom: "32px" }}
-      >
-        <AccordionSummary
-          expandIcon={
-            <ExpandMoreIcon
-              style={
-                pencariExpanded ? { color: "white" } : { color: "#DA251C" }
-              }
-            />
-          }
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-          style={
-            pencariExpanded
-              ? { background: "#DA251C", borderRadius: "10px" }
-              : { background: "rgba(196, 196, 196, 0.5)", borderRadius: "10px" }
-          }
-        >
-          <Typography
-            className={classes.heading}
-            style={
-              pencariExpanded
-                ? {
-                    textAlign: "center",
-                    color: "white",
-                    fontWeight: "bold",
-                    width: "100%",
-                  }
-                : {
-                    textAlign: "center",
-                    color: "#DA251C",
-                    fontWeight: "normal",
-                    width: "100%",
-                  }
-            }
-          >
-            Saya ingin mencari pendonor
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <GridContainer justify="center">
-            <GridItem cs={12} sm={12} md={8}>
-              <h2 className={classes.title}>Form data pencari donor</h2>
-              <form>
-                <GridContainer>
-                  <GridItem
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    style={{ margin: "16px 0px" }}
-                  >
-                    <FormControl
-                      className={classes.formControl}
-                      style={{ width: "100%", height: "48px" }}
-                    >
-                      <TextField
-                        value={needName}
-                        onChange={(e) => setNeedName(e.target.value)}
-                        style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Nama Lengkap Anda"
-                        id="name"
-                      />
-                    </FormControl>
-                  </GridItem>
-                  <GridItem
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    style={{ margin: "16px 0px" }}
-                  >
-                    <FormControl
-                      className={classes.formControl}
-                      style={{ width: "100%" }}
-                    >
-                      <InputLabel id="demo-simple-select-label">
-                        Golongan Darah
-                      </InputLabel>
-                      <Select
-                        value={needBloodType}
-                        onChange={(e) => setNeedBloodType(e.target.value)}
-                      >
-                        {listBloodType.map((item, index) => (
-                          <MenuItem key={index} value={item}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    style={{ margin: "16px 0px" }}
-                  >
-                    <FormControl
-                      className={classes.formControl}
-                      style={{ width: "100%" }}
-                    >
-                      <InputLabel id="demo-simple-select-label">
-                        Rhesus
-                      </InputLabel>
-                      <Select
-                        value={needRhesus}
-                        onChange={(e) => setNeedRhesus(e.target.value)}
-                      >
-                        {listRhesus.map((item, index) => (
-                          <MenuItem key={index} value={item}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </GridItem>
-                  <GridItem
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    style={{ margin: "16px 0px" }}
-                  >
-                    <Autocomplete
-                      id="combo-box-demo"
-                      options={listProvinsi}
-                      getOptionLabel={(option) => option.nama}
-                      style={{ width: "100%" }}
-                      onChange={(e, newValue) => setNeedProvinsi(newValue)}
-                      value={needProvinsi}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Provinsi" />
-                      )}
-                    />
-                  </GridItem>
-                  <GridItem
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    style={{ margin: "16px 0px" }}
-                  >
-                    {needProvinsi ? (
-                      <Autocomplete
-                        id="combo-box-demo"
-                        options={listNeedKota}
-                        getOptionLabel={(option) => option.nama}
-                        style={{ width: "100%" }}
-                        onChange={(e, newValue) => setNeedKota(newValue)}
-                        value={needKota}
-                        renderInput={(params) => (
-                          <TextField {...params} label="Kabupaten/Kota" />
-                        )}
-                      />
-                    ) : null}
-                  </GridItem>
-
-                  <GridItem
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    style={{ margin: "16px 0px" }}
-                  >
-                    <FormControl
-                      className={classes.formControl}
-                      style={{ width: "100%", height: "48px" }}
-                    >
-                      <TextField
-                        value={needPhone}
-                        onChange={(e) => setNeedPhone(e.target.value)}
-                        style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Nomor HP"
-                        id="name"
-                      />
-                    </FormControl>
-                  </GridItem>
-
-                  <GridItem
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    style={{ margin: "16px 0px" }}
-                  >
-                    <FormControl
-                      className={classes.formControl}
-                      style={{ width: "100%", height: "48px" }}
-                    >
-                      <TextField
-                        value={needSocialMedia}
-                        onChange={(e) => setNeedSocialMedia(e.target.value)}
-                        style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Link Social Media"
-                        id="name"
-                      />
-                    </FormControl>
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <Button
-                      color="primary"
-                      style={{
-                        width: "100%",
-                        background: "#DA251C",
-                        color: "white",
-                        marginTop: "32px",
-                        borderRadius: "10px",
-                      }}
-                      onClick={() => {
-                        !needLoading ? submitPencariDonor() : null;
-                      }}
-                    >
-                      {needLoading ? "Loading..." : "Submit Data"}
-                    </Button>
-                    {needMessage !== "" ? (
-                      <p
-                        style={
-                          needMessageType === "warning"
-                            ? {
-                                color: "#DA251C",
-                                width: "100%",
-                                textAlign: "center",
-                                fontWeight: "bold",
-                                marginTop: "32px",
-                              }
-                            : {
-                                color: "green",
-                                width: "100%",
-                                textAlign: "center",
-                                fontWeight: "bold",
-                                marginTop: "32px",
-                              }
-                        }
-                      >
-                        {needMessage}
-                      </p>
-                    ) : null}
-                  </GridItem>
-                </GridContainer>
-              </form>
-            </GridItem>
-          </GridContainer>
-        </AccordionDetails>
-      </Accordion>
       <Accordion
         id="pendonor"
         expanded={pendonorExpanded}
