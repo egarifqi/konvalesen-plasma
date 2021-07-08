@@ -98,7 +98,7 @@ export default function FormMencariSection() {
     ) {
       setNeedLoading(false);
       setNeedMessageType("warning");
-      setNeedMessage("Mohon isi setidaknya nomor HP atau link social media");
+      setNeedMessage("Mohon isi setidaknya nomor Whatsapp atau username IG");
     } else {
       var item = {
         name: needName,
@@ -287,11 +287,20 @@ export default function FormMencariSection() {
                     ) : null}
                   </GridItem>
 
+                  <GridItem xs={12} sm={12} md={12}>
+                    <h4>
+                      <strong>
+                        Mohon isi setidaknya satu sebagai cara untuk menghubungi
+                        Anda
+                      </strong>
+                    </h4>
+                  </GridItem>
+
                   <GridItem
                     xs={12}
                     sm={12}
                     md={6}
-                    style={{ margin: "16px 0px" }}
+                    style={{ margin: "0px 0px 16px 0px" }}
                   >
                     <FormControl
                       className={classes.formControl}
@@ -301,7 +310,7 @@ export default function FormMencariSection() {
                         value={needPhone}
                         onChange={(e) => setNeedPhone(e.target.value)}
                         style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Nomor HP"
+                        placeholder="Nomor Whatsapp"
                         id="name"
                       />
                     </FormControl>
@@ -311,7 +320,7 @@ export default function FormMencariSection() {
                     xs={12}
                     sm={12}
                     md={6}
-                    style={{ margin: "16px 0px" }}
+                    style={{ margin: "0px 0px 16px 0px" }}
                   >
                     <FormControl
                       className={classes.formControl}
@@ -321,7 +330,7 @@ export default function FormMencariSection() {
                         value={needSocialMedia}
                         onChange={(e) => setNeedSocialMedia(e.target.value)}
                         style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Link Social Media"
+                        placeholder="Username IG"
                         id="name"
                       />
                     </FormControl>

@@ -25,6 +25,12 @@ import axios from "axios";
 import qoreContext from "qoreContext";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import HelpIcon from "@material-ui/icons/Help";
+import IconButton from "@material-ui/core/IconButton";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 
@@ -52,6 +58,8 @@ export default function FormMencariSection() {
   const [isSehatKomorbid, setIsSehatKomorbid] = useState(false);
   const [isSembuh, setIsSembuh] = useState(false);
   const [isScreening, setIsScreening] = useState(false);
+  const [isAgree, setIsAgree] = useState(false);
+  const [isKomorbidOpen, setIsKomorbidOpen] = useState(false);
 
   const [listBloodType] = useState(["A", "B", "AB", "0"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
@@ -112,9 +120,22 @@ export default function FormMencariSection() {
     ) {
       setBecomeLoading(false);
       setBecomeMessageType("warning");
-      setBecomeMessage("Mohon isi setidaknya nomor HP atau link social media");
+      setBecomeMessage("Mohon isi setidaknya nomor Whatsapp atau username IG");
+    } else if (becomeName.length < 5) {
+      setBecomeLoading(false);
+      setBecomeMessageType("warning");
+      setBecomeMessage("Mohon isi dengan nama lengkap Anda");
+    } else if (
+      becomePhone !== null &&
+      becomePhone !== "" &&
+      becomePhone.length < 10
+    ) {
+      setBecomeLoading(false);
+      setBecomeMessageType("warning");
+      setBecomeMessage("Mohon isi nomor Whatsapp Anda dengan benar");
     } else if (
       jedaCovid < 14 ||
+      jedaCovid > 90 ||
       becomeWeight < 55 ||
       !isHamil ||
       !isTranfusi ||
@@ -129,10 +150,10 @@ export default function FormMencariSection() {
       if (becomeWeight < 55) {
         warningMessage =
           warningMessage + "Berat badan Anda harus lebih dari 55 Kg.";
-      } else if (jedaCovid < 14) {
+      } else if (jedaCovid < 14 || jedaCovid > 90) {
         warningMessage =
           warningMessage +
-          "Jeda setelah sembuh dari Covid-19 harus lebih dari 14 hari";
+          "Jeda setelah sembuh dari Covid-19 harus di antara 14 - 90 hari";
       } else if (
         !isHamil ||
         !isTranfusi ||
@@ -145,6 +166,12 @@ export default function FormMencariSection() {
           "Anda tidak memenuhi semua kondisi dari 5 kondisi di atas.";
       }
       setBecomeMessage(warningMessage);
+    } else if (!isAgree) {
+      setBecomeLoading(false);
+      setBecomeMessageType("warning");
+      setBecomeMessage(
+        "Mohon setujui ketersediaan Anda dalam mensubmit data Anda"
+      );
     } else {
       var item = {
         name: becomeName,
@@ -154,6 +181,9 @@ export default function FormMencariSection() {
         kota: becomeKota.nama,
         phone: becomePhone,
         socialMedia: becomeSocialMedia,
+        beratBadan: becomeWeight,
+        tanggalSembuh: becomeDate,
+        createdDate: new Date(),
       };
 
       await insertBecomeRow(item);
@@ -169,9 +199,7 @@ export default function FormMencariSection() {
   }
 
   const handleDateChange = (date) => {
-    console.log(date);
     setBecomeDate(date);
-    console.log(Math.floor((new Date() - date) / (3600 * 24 * 1000)));
   };
 
   return (
@@ -375,11 +403,21 @@ export default function FormMencariSection() {
                       />
                     </FormControl>
                   </GridItem>
+
+                  <GridItem xs={12} sm={12} md={12}>
+                    <h4>
+                      <strong>
+                        Mohon isi setidaknya satu sebagai cara untuk menghubungi
+                        Anda
+                      </strong>
+                    </h4>
+                  </GridItem>
+
                   <GridItem
                     xs={12}
                     sm={12}
                     md={6}
-                    style={{ margin: "16px 0px" }}
+                    style={{ margin: "0px 0px 16px 0px" }}
                   >
                     <FormControl
                       className={classes.formControl}
@@ -389,7 +427,7 @@ export default function FormMencariSection() {
                         value={becomePhone}
                         onChange={(e) => setBecomePhone(e.target.value)}
                         style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Nomor HP"
+                        placeholder="Nomor Whatsapp"
                         id="name"
                       />
                     </FormControl>
@@ -399,7 +437,7 @@ export default function FormMencariSection() {
                     xs={12}
                     sm={12}
                     md={6}
-                    style={{ margin: "16px 0px" }}
+                    style={{ margin: "0px 0px 16px 0px" }}
                   >
                     <FormControl
                       className={classes.formControl}
@@ -409,7 +447,7 @@ export default function FormMencariSection() {
                         value={becomeSocialMedia}
                         onChange={(e) => setBecomeSocialMedia(e.target.value)}
                         style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Link Social Media"
+                        placeholder="Username IG"
                         id="name"
                       />
                     </FormControl>
@@ -420,9 +458,11 @@ export default function FormMencariSection() {
                     md={12}
                     style={{ marginTop: "32px" }}
                   >
-                    <h3>
-                      Silahkan isikan kondisi di bawah ini sesuai dengan kondisi
-                      asli Anda
+                    <h3 style={{ fontSize: "24px" }}>
+                      <strong>
+                        Silahkan isikan kondisi di bawah sesuai dengan kondisi
+                        asli Anda
+                      </strong>
                     </h3>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
@@ -434,6 +474,7 @@ export default function FormMencariSection() {
                           color="primary"
                         />
                       }
+                      style={{ color: "black" }}
                       label="Belum pernah hamil, melahirkan atau keguguran"
                     />
                   </GridItem>
@@ -446,6 +487,7 @@ export default function FormMencariSection() {
                           color="primary"
                         />
                       }
+                      style={{ color: "black" }}
                       label="Tidak menerima transfusi darah selama 6 bulan terakhir"
                     />
                   </GridItem>
@@ -458,8 +500,34 @@ export default function FormMencariSection() {
                           color="primary"
                         />
                       }
+                      style={{ color: "black", marginRight: "0px" }}
                       label="Sehat tanpa ada komorbid"
                     />
+                    <IconButton
+                      aria-label="upload picture"
+                      component="span"
+                      onClick={() => setIsKomorbidOpen(true)}
+                    >
+                      <HelpIcon />
+                    </IconButton>
+                    <Dialog
+                      open={isKomorbidOpen}
+                      onClose={() => setIsKomorbidOpen(false)}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        {"Komorbid adalah..."}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          Komorbid adalah penyakit penyerta seperti tekanan
+                          darah tinggi (hipertensi), kencing manis, diabetes
+                          melitus, hepatitis B, hepatitis C, sifilis, HIV/AIDS
+                          dan penyakit penyerta lainnya
+                        </DialogContentText>
+                      </DialogContent>
+                    </Dialog>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <FormControlLabel
@@ -470,6 +538,7 @@ export default function FormMencariSection() {
                           color="primary"
                         />
                       }
+                      style={{ color: "black" }}
                       label="Ada surat keterangan sembuh dari perawat"
                     />
                   </GridItem>
@@ -482,7 +551,34 @@ export default function FormMencariSection() {
                           color="primary"
                         />
                       }
+                      style={{ color: "black" }}
                       label="Bersedia mengikuti screening darah"
+                    />
+                  </GridItem>
+
+                  <GridItem
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    style={{ marginTop: "64px" }}
+                  >
+                    <p>
+                      <strong>
+                        Data Anda akan ditampilkan pada platform
+                        &apos;Lifeline&apos; paling lama 30 hari setelah
+                        mensubmit data tersebut
+                      </strong>
+                    </p>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isAgree}
+                          onChange={() => setIsAgree(!isAgree)}
+                          color="primary"
+                        />
+                      }
+                      style={{ color: "black" }}
+                      label="Saya bersedia untuk menampilkan data Saya pada 'Lifeline' selama 30 hari"
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>

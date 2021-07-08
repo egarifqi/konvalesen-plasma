@@ -29,6 +29,7 @@ export default function HeaderLinks(props) {
       <ListItem className={classes.listItem}>
         <Button
           href="#pencari"
+          onClick={() => props.setShowed("mencari")}
           color="transparent"
           className={classes.navLink}
         >
@@ -38,6 +39,7 @@ export default function HeaderLinks(props) {
       <ListItem className={classes.listItem}>
         <Button
           href="#pendonor"
+          onClick={() => props.setShowed("menjadi")}
           color="transparent"
           className={classes.navLink}
         >
