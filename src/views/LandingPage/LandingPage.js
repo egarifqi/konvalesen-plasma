@@ -22,6 +22,7 @@ import HowToMenjadiSection from "./Sections/HowToMenjadiSection.js";
 import HowToMencariSection from "./Sections/HowToMencariSection.js";
 import FormMencariSection from "./Sections/FormMencariSection.js";
 import FormMenjadiSection from "./Sections/FormMenjadiSection.js";
+import ListParticipantMobile from "./Sections/ListParticipantMobile.js";
 import Button from "components/CustomButtons/Button.js";
 import { useMediaQuery } from "react-responsive";
 
@@ -110,11 +111,13 @@ export default function LandingPage(props) {
           {showed === "menjadi" ? (
             <>
               <HowToMenjadiSection />
+              {isMobile ? <ListParticipantMobile type={showed} /> : null}
               <FormMenjadiSection />
             </>
           ) : (
             <>
               <HowToMencariSection />
+              {isMobile ? <ListParticipantMobile type={showed} /> : null}
               <FormMencariSection />
             </>
           )}
