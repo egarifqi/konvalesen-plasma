@@ -23,6 +23,7 @@ import HowToMencariSection from "./Sections/HowToMencariSection.js";
 import FormMencariSection from "./Sections/FormMencariSection.js";
 import FormMenjadiSection from "./Sections/FormMenjadiSection.js";
 import Button from "components/CustomButtons/Button.js";
+import { useMediaQuery } from "react-responsive";
 
 const dashboardRoutes = [];
 
@@ -31,6 +32,7 @@ const useStyles = makeStyles(styles);
 export default function LandingPage(props) {
   const classes = useStyles();
   const [showed, setShowed] = useState("mencari");
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   const { ...rest } = props;
   return (
     <div>
@@ -46,7 +48,13 @@ export default function LandingPage(props) {
         }}
         {...rest}
       />
-      <Parallax image={require("assets/img/hombanner.jpg").default}>
+      <Parallax
+        image={
+          isMobile
+            ? require("assets/img/mobilehomebanner.jpg").default
+            : require("assets/img/hombanner.jpg").default
+        }
+      >
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}></GridItem>
@@ -60,14 +68,19 @@ export default function LandingPage(props) {
             className={classes.section}
             style={{ display: "flex", justifyContent: "center" }}
           >
-            <div style={{ marginBottom: "64px" }}>
+            <div style={isMobile ? null : { marginBottom: "64px" }}>
               <Button
                 style={
                   showed === "mencari"
-                    ? { background: "#DA251C", color: "white" }
+                    ? {
+                        background: "#DA251C",
+                        color: "white",
+                        width: `${isMobile ? "100%" : "45%"}`,
+                      }
                     : {
                         background: "rgba(196, 196, 196, 0.5)",
                         color: "#DA251C",
+                        width: `${isMobile ? "100%" : "45%"}`,
                       }
                 }
                 onClick={() => setShowed("mencari")}
@@ -77,10 +90,15 @@ export default function LandingPage(props) {
               <Button
                 style={
                   showed === "menjadi"
-                    ? { background: "#DA251C", color: "white" }
+                    ? {
+                        background: "#DA251C",
+                        color: "white",
+                        width: `${isMobile ? "100%" : "45%"}`,
+                      }
                     : {
                         background: "rgba(196, 196, 196, 0.5)",
                         color: "#DA251C",
+                        width: `${isMobile ? "100%" : "45%"}`,
                       }
                 }
                 onClick={() => setShowed("menjadi")}

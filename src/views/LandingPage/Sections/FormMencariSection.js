@@ -21,6 +21,8 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import qoreContext from "qoreContext";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 
@@ -39,6 +41,7 @@ export default function FormMencariSection() {
   const [needLoading, setNeedLoading] = useState(false);
   const [needMessage, setNeedMessage] = useState("");
   const [needMessageType, setNeedMessageType] = useState("");
+  const [isNeedAgree, setIsNeedAgree] = useState(false);
 
   const [listBloodType] = useState(["A", "B", "AB", "0"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
@@ -99,6 +102,24 @@ export default function FormMencariSection() {
       setNeedLoading(false);
       setNeedMessageType("warning");
       setNeedMessage("Mohon isi setidaknya nomor Whatsapp atau username IG");
+    } else if (needName.length < 5) {
+      setNeedLoading(false);
+      setNeedMessageType("warning");
+      setNeedMessage("Mohon isi dengan nama lengkap Anda");
+    } else if (
+      needPhone !== null &&
+      needPhone !== "" &&
+      needPhone.length < 10
+    ) {
+      setNeedLoading(false);
+      setNeedMessageType("warning");
+      setNeedMessage("Mohon isi nomor Whatsapp Anda dengan benar");
+    } else if (!isNeedAgree) {
+      setNeedLoading(false);
+      setNeedMessageType("warning");
+      setNeedMessage(
+        "Mohon setujui ketersediaan Anda dalam mensubmit data Anda"
+      );
     } else {
       var item = {
         name: needName,
@@ -289,10 +310,7 @@ export default function FormMencariSection() {
 
                   <GridItem xs={12} sm={12} md={12}>
                     <h4>
-                      <strong>
-                        Mohon isi setidaknya satu sebagai cara untuk menghubungi
-                        Anda
-                      </strong>
+                      <strong>Mohon isi setidaknya satu kontak Anda</strong>
                     </h4>
                   </GridItem>
 
@@ -335,6 +353,33 @@ export default function FormMencariSection() {
                       />
                     </FormControl>
                   </GridItem>
+
+                  <GridItem
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    style={{ marginTop: "64px" }}
+                  >
+                    <p>
+                      <strong>
+                        Data Anda akan ditampilkan pada platform
+                        &apos;Lifeline&apos; paling lama 30 hari setelah
+                        mensubmit data tersebut
+                      </strong>
+                    </p>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isNeedAgree}
+                          onChange={() => setIsNeedAgree(!isNeedAgree)}
+                          color="primary"
+                        />
+                      }
+                      style={{ color: "black" }}
+                      label="Saya bersedia untuk menampilkan data Saya pada 'Lifeline' selama 30 hari"
+                    />
+                  </GridItem>
+
                   <GridItem xs={12} sm={12} md={12}>
                     <Button
                       color="primary"

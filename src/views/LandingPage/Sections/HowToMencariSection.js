@@ -34,7 +34,7 @@ export default function HowToMencariSection() {
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
-                <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                <GridItem xs={8} sm={8} md={6} className={classes.itemGrid}>
                   <img src={cari} alt="..." className={imageClasses} />
                 </GridItem>
                 <h4 className={classes.cardTitle}>Cari</h4>
@@ -48,7 +48,7 @@ export default function HowToMencariSection() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
-                <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                <GridItem xs={8} sm={8} md={6} className={classes.itemGrid}>
                   <img src={daftar} alt="..." className={imageClasses} />
                 </GridItem>
                 <h4 className={classes.cardTitle}>Daftar</h4>
@@ -62,7 +62,7 @@ export default function HowToMencariSection() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
-                <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                <GridItem xs={8} sm={8} md={6} className={classes.itemGrid}>
                   <img src={hubungi} alt="..." className={imageClasses} />
                 </GridItem>
                 <h4 className={classes.cardTitle}>Hubungi</h4>
