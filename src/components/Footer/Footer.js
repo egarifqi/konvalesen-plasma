@@ -29,12 +29,13 @@ export default function Footer(props) {
   return (
     <footer className={footerClasses} style={{ background: "#DA251C" }}>
       <div className={classes.container}>
-        <div className={classes.left}>
-        </div>
-        <div className={classes.right} style={{color: "white"}}>
+        <div className={classes.right} style={{color: "white", textAlign: "center"}}>
           &copy; {1900 + new Date().getYear()} , made with{" "}
           <Favorite className={classes.icon} /> by{" "}
-          Rakyat Indonesia Biasa
+          Lifeline Team
+        </div>
+        <div className={classes.left} style={{color: "white", marginBottom: "24px", textAlign: "center"}}>
+          Connect with us through connect@lifeline.id
         </div>
       </div>
     </footer>
