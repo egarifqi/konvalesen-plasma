@@ -117,12 +117,16 @@ export default function ListParticipantMobile(props) {
         setUsedData([]);
       } else {
         dataMenjadi.forEach((item) => {
-          if (item.socialMedia[0] === "@") {
-            item.socialMedia = item.socialMedia.substring(1);
+          if (item.socialMedia) {
+            if (item.socialMedia[0] === "@") {
+              item.socialMedia = item.socialMedia.substring(1);
+            }
           }
 
-          if (item.phone[0] === "0") {
-            item.phone = "+62" + item.phone.substring(1);
+          if (item.phone) {
+            if (item.phone[0] === "0") {
+              item.phone = "+62" + item.phone.substring(1);
+            }
           }
 
           var diffSembuh = new DateDiff(
