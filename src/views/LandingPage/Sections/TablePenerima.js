@@ -123,48 +123,42 @@ export default function TablePenerima() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {status !== "success" ? (
-                <CircularProgress />
-              ) : (
-                <>
-                  {listPenerima.map((penerima) => (
-                    <StyledTableRow key={penerima.id}>
-                      <StyledTableCell component="th" scope="row">
-                        {penerima?.kota}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {penerima?.name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {`${penerima?.bloodType} ${
-                          penerima?.rhesus === "Positif" ? "+" : "-"
-                        }`}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {penerima?.rumahSakit}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {penerima.phone && (
-                          <IconButton
-                            href={`https://api.whatsapp.com/send?phone=${penerima.phone}`}
-                            target="_blank"
-                          >
-                            <WhatsAppIcon />
-                          </IconButton>
-                        )}
-                        {penerima.socialMedia && (
-                          <IconButton
-                            href={`https://www.instagram.com/${penerima?.socialMedia}`}
-                            target="_blank"
-                          >
-                            <InstagramIcon />
-                          </IconButton>
-                        )}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </>
-              )}
+              {listPenerima.map((penerima) => (
+                <StyledTableRow key={penerima.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {penerima?.kota}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {penerima?.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {`${penerima?.bloodType} ${
+                      penerima?.rhesus === "Positif" ? "+" : "-"
+                    }`}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {penerima?.rumahSakit}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {penerima.phone && (
+                      <IconButton
+                        href={`https://api.whatsapp.com/send?phone=${penerima.phone}`}
+                        target="_blank"
+                      >
+                        <WhatsAppIcon />
+                      </IconButton>
+                    )}
+                    {penerima.socialMedia && (
+                      <IconButton
+                        href={`https://www.instagram.com/${penerima?.socialMedia}`}
+                        target="_blank"
+                      >
+                        <InstagramIcon />
+                      </IconButton>
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
           <TablePagination

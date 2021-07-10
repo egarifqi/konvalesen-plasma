@@ -88,7 +88,7 @@ export default function LandingPage(props) {
                 }
                 onClick={() => setShowed("mencari")}
               >
-                Saya ingin mencari pendonor
+                Cari Plasma
               </Button>
               <Button
                 style={
@@ -106,7 +106,7 @@ export default function LandingPage(props) {
                 }
                 onClick={() => setShowed("menjadi")}
               >
-                Saya ingin menjadi pendonor
+                Donor Plasma
               </Button>
             </div>
           </div>
