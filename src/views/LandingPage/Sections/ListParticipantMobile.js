@@ -38,10 +38,14 @@ export default function ListParticipantMobile(props) {
 
   useEffect(() => {
     if (type) {
-      if (type === "mencari") {
+      if (type === "menjadi") {
         dataMencari.forEach((item) => {
           if (item.socialMedia[0] === "@") {
             item.socialMedia = item.socialMedia.substring(1);
+          }
+
+          if (item.phone[0] === "0") {
+            item.phone = "+62" + item.phone.substring(1);
           }
         });
         setUsedData(dataMencari);
@@ -50,11 +54,15 @@ export default function ListParticipantMobile(props) {
           if (item.socialMedia[0] === "@") {
             item.socialMedia = item.socialMedia.substring(1);
           }
+
+          if (item.phone[0] === "0") {
+            item.phone = "+62" + item.phone.substring(1);
+          }
         });
         setUsedData(dataMenjadi);
       }
     }
-  }, [dataMencari, dataMenjadi]);
+  }, [dataMencari, dataMenjadi, type]);
 
   console.log("INSPECT DATA");
   console.log(dataMencari);
@@ -67,7 +75,7 @@ export default function ListParticipantMobile(props) {
           <GridContainer>
             <GridItem xs={12} sm={12}>
               <h2 className={classes.title}>
-                {type === "mencari" ? "Data Pencari Donor" : "Data Pendonor"}
+                {type === "menjadi" ? "Data Pencari Donor" : "Data Pendonor"}
               </h2>
             </GridItem>
             <div
