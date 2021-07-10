@@ -16,6 +16,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import qoreContext from "qoreContext";
 import TableFilter from "./TableFilter";
+import dayjs from "dayjs";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -151,7 +152,7 @@ export default function TablePendonor() {
                         {pendonor?.beratBadan}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {pendonor?.tanggalSembuh}
+                        {dayjs(pendonor?.tanggalSembuh).format("DD MMMM YYYY")}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {pendonor.phone && (
