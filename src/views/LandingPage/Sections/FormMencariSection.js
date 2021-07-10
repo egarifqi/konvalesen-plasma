@@ -23,6 +23,10 @@ import axios from "axios";
 import qoreContext from "qoreContext";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 
@@ -42,6 +46,7 @@ export default function FormMencariSection() {
   const [needMessage, setNeedMessage] = useState("");
   const [needMessageType, setNeedMessageType] = useState("");
   const [isNeedAgree, setIsNeedAgree] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [listBloodType] = useState(["A", "B", "AB", "0"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
@@ -142,10 +147,7 @@ export default function FormMencariSection() {
       setNeedKota("");
       setNeedPhone("");
       setNeedSocialMedia("");
-      setTimeout(() => {
-        setNeedMessage("");
-        window.location.reload();
-      }, 5000);
+      setIsSubmitted(true);
     }
   }
 
@@ -197,7 +199,14 @@ export default function FormMencariSection() {
         <AccordionDetails>
           <GridContainer justify="center">
             <GridItem cs={12} sm={12} md={8}>
-              <h2 className={classes.title}>Form data pencari donor</h2>
+              <h2
+                className={classes.title}
+                style={{
+                  fontSize: "24px",
+                }}
+              >
+                Form data pencari donor
+              </h2>
               <form>
                 <GridContainer>
                   <GridItem
@@ -426,6 +435,40 @@ export default function FormMencariSection() {
           </GridContainer>
         </AccordionDetails>
       </Accordion>
+      <Dialog
+        open={isSubmitted}
+        onClose={() => {
+          window.location.reload();
+        }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText
+            id="alert-dialog-description"
+            style={{
+              color: "black",
+              textAlign: "center",
+            }}
+          >
+            <strong>
+              Pendaftaran diri Anda sebagai pencari donor berhasil.
+            </strong>
+            <br />
+            <br />
+            Semoga Anda / kerabat Anda lekas sembuh dari Covid19.
+          </DialogContentText>
+          <DialogActions style={{ justifyContent: "center" }}>
+            <Button
+              onClick={() => window.location.reload()}
+              style={{ background: "#DA251C", color: "white" }}
+              autoFocus
+            >
+              Tutup
+            </Button>
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -47,6 +47,7 @@ export default function ListParticipantMobile(props) {
   const [selectedBloodType, setSelectedBloodType] = useState(null);
   const [selectedRhesus, setSelectedRhesus] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSearched, setIsSearched] = useState(false);
   const [messageType, setMessageType] = useState(null);
   const [message, setMessage] = useState(null);
 
@@ -155,6 +156,7 @@ export default function ListParticipantMobile(props) {
   useEffect(() => {
     setUsedData([]);
     setMessage("");
+    setIsSearched(false);
   }, [type]);
 
   const submitFilter = () => {
@@ -186,8 +188,7 @@ export default function ListParticipantMobile(props) {
       setMessageType("filtered");
     }
 
-    console.log(allData);
-    console.log(filteredData);
+    setIsSearched(true);
     setIsLoading(false);
     setUsedData(filteredData);
   };
@@ -198,8 +199,15 @@ export default function ListParticipantMobile(props) {
         <div>
           <GridContainer>
             <GridItem xs={12} sm={12}>
-              <h2 className={classes.title}>
-                {type === "menjadi" ? "Data Pencari Donor" : "Data Pendonor"}
+              <h2
+                className={classes.title}
+                style={{
+                  fontSize: "24px",
+                }}
+              >
+                {type === "menjadi"
+                  ? "Temukan Pencari Donor"
+                  : "Temukan Pendonor"}
               </h2>
             </GridItem>
 
@@ -271,6 +279,22 @@ export default function ListParticipantMobile(props) {
               </FormControl>
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
+              <Button
+                color="primary"
+                style={{
+                  width: "100%",
+                  background: "#DA251C",
+                  color: "white",
+                  marginTop: "8px",
+                  marginBottom: "16px",
+                  borderRadius: "10px",
+                }}
+                onClick={() => {
+                  !isLoading ? submitFilter() : null;
+                }}
+              >
+                {isLoading ? "Loading..." : "Cari Data"}
+              </Button>
               {message !== "" ? (
                 <p
                   style={
@@ -280,181 +304,201 @@ export default function ListParticipantMobile(props) {
                           width: "100%",
                           textAlign: "center",
                           fontWeight: "bold",
-                          margin: "8px",
+                          marginBottom: "64px",
+                          marginTop: "8px",
                         }
                       : {
                           color: "green",
                           width: "100%",
                           textAlign: "center",
                           fontWeight: "bold",
-                          margin: "8px",
+                          marginBottom: "64px",
+                          marginTop: "8px",
                         }
                   }
                 >
                   {message}
                 </p>
               ) : null}
-              <Button
-                color="primary"
+            </GridItem>
+            {usedData.length > 0 ? (
+              <div
                 style={{
+                  maxHeight: "70vh",
+                  overflowY: "auto",
                   width: "100%",
-                  background: "#DA251C",
-                  color: "white",
-                  marginTop: "8px",
-                  marginBottom: "64px",
-                  borderRadius: "10px",
-                }}
-                onClick={() => {
-                  !isLoading ? submitFilter() : null;
+                  background: "rgba(0,0,0,0.4)",
                 }}
               >
-                {isLoading ? "Loading..." : "Cari Data"}
-              </Button>
-            </GridItem>
-            <div
-              style={{
-                maxHeight: "70vh",
-                overflowY: "auto",
-                width: "100%",
-                background: "rgba(0,0,0,0.4)",
-              }}
-            >
-              {usedData.length > 0
-                ? usedData.map((item) => (
-                    <GridItem key={item.id} xs={12} sm={12}>
-                      <Card
-                        className={classes.root}
-                        style={{
-                          margin: "16px 0px",
-                        }}
-                      >
-                        <CardContent style={{ padding: "16px" }}>
-                          <GridContainer spacing={3}>
-                            <GridItem
-                              xs={6}
-                              sm={6}
-                              style={{ background: "white" }}
-                            >
-                              <p
-                                style={{
-                                  color: "black",
-                                  textAlign: "left",
-                                  marginBottom: "0px",
-                                }}
+                {usedData.length > 0
+                  ? usedData.map((item) => (
+                      <GridItem key={item.id} xs={12} sm={12}>
+                        <Card
+                          className={classes.root}
+                          style={{
+                            margin: "16px 0px",
+                          }}
+                        >
+                          <CardContent style={{ padding: "16px" }}>
+                            <GridContainer spacing={3}>
+                              <GridItem
+                                xs={6}
+                                sm={6}
+                                style={{ background: "white" }}
                               >
-                                {item.name}
-                              </p>
-                              {type === "mencari" ? (
                                 <p
                                   style={{
                                     color: "black",
                                     textAlign: "left",
-                                    fontSize: "12px",
+                                    marginBottom: "0px",
                                   }}
                                 >
-                                  <Tooltip title="Berat Badan">
-                                    <span>
-                                      <strong>Berat Badan</strong> :&nbsp;
-                                      {item.beratBadan} Kg
-                                    </span>
-                                  </Tooltip>
-                                  <br />
-                                  <Tooltip title="Tanggal Sembuh Covid19">
-                                    <span>
-                                      <strong>Tgl Sembuh</strong> :&nbsp;
-                                      {dateFormat(
-                                        item.tanggalSembuh,
-                                        "d mmm yy"
-                                      )}
-                                    </span>
-                                  </Tooltip>
+                                  {item.name}
                                 </p>
-                              ) : null}
-                            </GridItem>
-                            <GridItem
-                              xs={2}
-                              sm={2}
-                              style={{
-                                background: "white",
-                                position: "relative",
-                              }}
-                            >
-                              <p
+                                {type === "mencari" ? (
+                                  <p
+                                    style={{
+                                      color: "black",
+                                      textAlign: "left",
+                                      fontSize: "12px",
+                                    }}
+                                  >
+                                    <Tooltip title="Berat Badan">
+                                      <span>
+                                        <strong>Berat Badan</strong> :&nbsp;
+                                        {item.beratBadan} Kg
+                                      </span>
+                                    </Tooltip>
+                                    <br />
+                                    <Tooltip title="Tanggal Sembuh Covid19">
+                                      <span>
+                                        <strong>Tgl Sembuh</strong> :&nbsp;
+                                        {dateFormat(
+                                          item.tanggalSembuh,
+                                          "d mmm yy"
+                                        )}
+                                      </span>
+                                    </Tooltip>
+                                  </p>
+                                ) : null}
+                              </GridItem>
+                              <GridItem
+                                xs={2}
+                                sm={2}
                                 style={{
-                                  color: "black",
-                                  position: "absolute",
-                                  width: "100%",
-                                  top: "50%",
-                                  transform: "translateY(-50%)",
+                                  background: "white",
+                                  position: "relative",
                                 }}
                               >
-                                {item.bloodType}
-                                {item.rhesus === "Positif" ? "+" : "-"}
-                              </p>
-                            </GridItem>
-                            <GridItem
-                              xs={2}
-                              sm={2}
-                              style={{
-                                background: "white",
-                                position: "relative",
-                              }}
-                            >
-                              {item.phone !== "" ? (
-                                <IconButton
-                                  href={
-                                    "https://api.whatsapp.com/send?phone=" +
-                                    item.phone
-                                  }
-                                  target="_blank"
+                                <p
                                   style={{
+                                    color: "black",
                                     position: "absolute",
                                     width: "100%",
                                     top: "50%",
-                                    left: "0",
-                                    color: "#DA251C",
                                     transform: "translateY(-50%)",
                                   }}
                                 >
-                                  <WhatsAppIcon />
-                                </IconButton>
-                              ) : null}
-                            </GridItem>
-                            <GridItem
-                              xs={2}
-                              sm={2}
-                              style={{
-                                background: "white",
-                                position: "relative",
-                              }}
-                            >
-                              {item.socialMedia !== "" ? (
-                                <IconButton
-                                  href={
-                                    "https://www.instagram.com/" +
-                                    item.socialMedia
-                                  }
-                                  target="_blank"
-                                  style={{
-                                    position: "absolute",
-                                    width: "100%",
-                                    top: "50%",
-                                    left: "0",
-                                    color: "#DA251C",
-                                    transform: "translateY(-50%)",
-                                  }}
-                                >
-                                  <InstagramIcon />
-                                </IconButton>
-                              ) : null}
-                            </GridItem>
-                          </GridContainer>
-                        </CardContent>
-                      </Card>
-                    </GridItem>
-                  ))
-                : null}
-            </div>
+                                  {item.bloodType}
+                                  {item.rhesus === "Positif" ? "+" : "-"}
+                                </p>
+                              </GridItem>
+                              <GridItem
+                                xs={2}
+                                sm={2}
+                                style={{
+                                  background: "white",
+                                  position: "relative",
+                                }}
+                              >
+                                {item.phone !== "" ? (
+                                  <IconButton
+                                    href={
+                                      "https://api.whatsapp.com/send?phone=" +
+                                      item.phone
+                                    }
+                                    target="_blank"
+                                    style={{
+                                      position: "absolute",
+                                      width: "100%",
+                                      top: "50%",
+                                      left: "0",
+                                      color: "#DA251C",
+                                      transform: "translateY(-50%)",
+                                    }}
+                                  >
+                                    <WhatsAppIcon />
+                                  </IconButton>
+                                ) : null}
+                              </GridItem>
+                              <GridItem
+                                xs={2}
+                                sm={2}
+                                style={{
+                                  background: "white",
+                                  position: "relative",
+                                }}
+                              >
+                                {item.socialMedia !== "" ? (
+                                  <IconButton
+                                    href={
+                                      "https://www.instagram.com/" +
+                                      item.socialMedia
+                                    }
+                                    target="_blank"
+                                    style={{
+                                      position: "absolute",
+                                      width: "100%",
+                                      top: "50%",
+                                      left: "0",
+                                      color: "#DA251C",
+                                      transform: "translateY(-50%)",
+                                    }}
+                                  >
+                                    <InstagramIcon />
+                                  </IconButton>
+                                ) : null}
+                              </GridItem>
+                            </GridContainer>
+                          </CardContent>
+                        </Card>
+                      </GridItem>
+                    ))
+                  : null}
+              </div>
+            ) : isSearched ? (
+              <GridItem
+                xs={12}
+                sm={12}
+                style={{
+                  border: "1px solid #da251c",
+                  padding: "16px",
+                  marginLeft: "16px",
+                  marginRight: "16px",
+                }}
+              >
+                <h2
+                  className={classes.title}
+                  style={{
+                    fontSize: "18px",
+                    margin: "0px",
+                  }}
+                >
+                  Maaf,
+                  <br />
+                  tidak ditemukan data yang sesuai.
+                </h2>
+                <p
+                  style={{
+                    color: "black",
+                  }}
+                >
+                  {type === "menjadi"
+                    ? "Mohon submit data nda dengan mengisi form di bawah ini agar Anda terdaftar sebagai pendonor"
+                    : "Mohon submit data Anda dengan mengisi form di bawah ini agar Anda terdaftar sebagai pencari donor"}
+                </p>
+              </GridItem>
+            ) : null}
           </GridContainer>
         </div>
       </>
