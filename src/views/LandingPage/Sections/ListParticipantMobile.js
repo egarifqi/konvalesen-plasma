@@ -39,8 +39,18 @@ export default function ListParticipantMobile(props) {
   useEffect(() => {
     if (type) {
       if (type === "mencari") {
+        dataMencari.forEach((item) => {
+          if (item.socialMedia[0] === "@") {
+            item.socialMedia = item.socialMedia.substring(1);
+          }
+        });
         setUsedData(dataMencari);
       } else {
+        dataMenjadi.forEach((item) => {
+          if (item.socialMedia[0] === "@") {
+            item.socialMedia = item.socialMedia.substring(1);
+          }
+        });
         setUsedData(dataMenjadi);
       }
     }
@@ -158,7 +168,10 @@ export default function ListParticipantMobile(props) {
                               }}
                             >
                               <IconButton
-                                href={"https://www.instagram.com"}
+                                href={
+                                  "https://api.whatsapp.com/send?phone=" +
+                                  item.phone
+                                }
                                 target="_blank"
                                 style={{
                                   position: "absolute",
@@ -181,7 +194,10 @@ export default function ListParticipantMobile(props) {
                               }}
                             >
                               <IconButton
-                                href={"https://www.instagram.com"}
+                                href={
+                                  "https://www.instagram.com/" +
+                                  item.socialMedia
+                                }
                                 target="_blank"
                                 style={{
                                   position: "absolute",
