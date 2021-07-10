@@ -65,11 +65,7 @@ export default function TableFilter() {
   return (
     <div className={classes.filterContainer}>
       <form onSubmit={handleSubmit}>
-        <Grid
-          justify="space-between" // Add it here :)
-          container
-          spacing={3}
-        >
+        <Grid justify="space-between" container spacing={3}>
           <Grid item xs={3}>
             <Autocomplete
               id="combo-box-demo"
@@ -153,80 +149,6 @@ export default function TableFilter() {
             </Button>
           </Grid>
         </Grid>
-        {/* <FormControl className={classes.formControl}>
-          <Autocomplete
-            id="combo-box-demo"
-            options={listProvinsi}
-            getOptionLabel={(option) => option.nama}
-            style={{ width: "100%" }}
-            onChange={(e, newValue) => setNeedProvinsi(newValue)}
-            value={needProvinsi}
-            renderInput={(params) => <TextField {...params} label="Provinsi" />}
-          />
-        </FormControl>
-        {needProvinsi && (
-          <FormControl className={classes.formControl}>
-            <Autocomplete
-              id="combo-box-demo"
-              options={listNeedKota}
-              getOptionLabel={(option) => option.nama}
-              style={{ width: "100%" }}
-              onChange={(e, newValue) => setNeedKota(newValue)}
-              value={needKota}
-              renderInput={(params) => (
-                <TextField {...params} label="Kota/Kab" />
-              )}
-            />
-          </FormControl>
-        )}
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="grouped-native-select">Golonga Darah</InputLabel>
-          <Select
-            native
-            defaultValue=""
-            value={needBloodType}
-            onChange={(e) => setNeedBloodType(e.target.value)}
-            id="grouped-native-select"
-          >
-            <option aria-label="None" value="" />
-            {listBloodType.map((type, idx) => (
-              <option value={type} key={idx}>
-                {type}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="grouped-select">Rhesus</InputLabel>
-          <Select
-            native
-            defaultValue=""
-            id="grouped-native-select"
-            value={needRhesus}
-            onChange={(e) => setNeedRhesus(e.target.value)}
-          >
-            <option aria-label="None" value="" />
-            {listRhesus.map((rhesus, idx) => (
-              <option value={rhesus} key={idx}>
-                {rhesus}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-        <Button
-          color="primary"
-          type="submit"
-          style={{
-            width: "200px",
-            marginLeft: "20px",
-            background: "#DA251C",
-            color: "white",
-            marginTop: "32px",
-            borderRadius: "10px",
-          }}
-        >
-          Search
-        </Button> */}
       </form>
     </div>
   );
