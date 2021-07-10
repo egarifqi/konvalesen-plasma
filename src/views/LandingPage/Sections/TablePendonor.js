@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import qoreContext from "qoreContext";
+import TableFilter from "./TableFilter";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -48,6 +49,7 @@ export default function TablePendonor() {
       <h4 style={{ color: "#3c4858", fontSize: "18px", fontWeight: "bold" }}>
         Tabel Calon Pendonor
       </h4>
+      <TableFilter />
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
