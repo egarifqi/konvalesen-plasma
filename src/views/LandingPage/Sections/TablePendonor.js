@@ -66,7 +66,6 @@ export default function TablePendonor() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
-    // setPage(0);
   };
 
   React.useMemo(async () => {
@@ -86,8 +85,6 @@ export default function TablePendonor() {
     });
     setTotalCount(totalCount);
   };
-
-  filterProps;
 
   useEffect(() => {
     const test = page * rowsPerPage;
