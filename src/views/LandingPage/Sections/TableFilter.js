@@ -32,13 +32,17 @@ export default function TableFilter(parent) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let kotaArray = [];
+    if (needKota.length > 0) {
+      kotaArray = needKota.map((kota) => kota.nama);
+    }
     const filter = {
       provinsi: needProvinsi?.nama || "",
-      kota: needKota?.nama || "",
+      kota: kotaArray,
       bloodType: needBloodType || "",
       rhesus: needRhesus || "",
     };
-    console.log(filter);
+
     setFilter(filter);
   };
 
@@ -89,12 +93,12 @@ export default function TableFilter(parent) {
           {needProvinsi && (
             <Grid item xs={3}>
               <Autocomplete
+                multiple
                 id="combo-box-demo"
                 options={listNeedKota}
                 getOptionLabel={(option) => option.nama}
                 style={{ width: "100%" }}
                 onChange={(e, newValue) => setNeedKota(newValue)}
-                value={needKota}
                 renderInput={(params) => (
                   <TextField {...params} label="Kota/Kab" />
                 )}

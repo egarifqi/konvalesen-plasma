@@ -45,7 +45,7 @@ export default function TablePenerima() {
   const classes = useStyles();
   const [filterProps, setFilterProps] = useState({
     provinsi: "",
-    kota: "",
+    kota: [],
     bloodType: "",
     rhesus: "",
   });
@@ -67,7 +67,6 @@ export default function TablePenerima() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
-    // setPage(0);
   };
 
   React.useMemo(async () => {
@@ -108,9 +107,10 @@ export default function TablePenerima() {
           style={{
             display: "flex",
             justifyContent: "center",
+            minHeight: "400px",
           }}
         >
-          <CircularProgress />
+          <CircularProgress style={{ marginTop: "25vh" }} />
         </div>
       ) : (
         <>

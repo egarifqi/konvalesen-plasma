@@ -46,7 +46,7 @@ export default function TablePendonor() {
   const classes = useStyles();
   const [filterProps, setFilterProps] = useState({
     provinsi: "",
-    kota: "",
+    kota: [],
     bloodType: "",
     rhesus: "",
   });
@@ -109,9 +109,10 @@ export default function TablePendonor() {
           style={{
             display: "flex",
             justifyContent: "center",
+            minHeight: "400px",
           }}
         >
-          <CircularProgress />
+          <CircularProgress style={{ marginTop: "25vh" }} />
         </div>
       ) : (
         <>
