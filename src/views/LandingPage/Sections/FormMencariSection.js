@@ -50,7 +50,7 @@ export default function FormMencariSection() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
 
-  const [listBloodType] = useState(["A", "B", "AB", "0"]);
+  const [listBloodType] = useState(["A", "B", "AB", "O"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const [listProvinsi, setListProvinsi] = useState([]);
   const [pencariExpanded, setPencariExpanded] = useState(true);
