@@ -49,6 +49,8 @@ export default function FormMencariSection() {
   const [needMessageType, setNeedMessageType] = useState("");
   const [isNeedAgree, setIsNeedAgree] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isValidWhatsapp, setIsValidWhatsapp] = useState(true);
+  const [isValidInstagram, setIsValidInstagram] = useState(true);
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
 
   const [listBloodType] = useState(["A", "B", "AB", "O"]);
@@ -124,6 +126,16 @@ export default function FormMencariSection() {
       setNeedLoading(false);
       setNeedMessageType("warning");
       setNeedMessage("Mohon isi nomor Whatsapp Anda dengan benar");
+    } else if (needPhone.substring(0, 3) !== "+62") {
+      setNeedLoading(false);
+      setNeedMessageType("warning");
+      setNeedMessage("Nomor Whatsapp tidak valid. Mohon awali dengan +62");
+    } else if (needSocialMedia[0] === "@") {
+      setNeedLoading(false);
+      setNeedMessageType("warning");
+      setNeedMessage(
+        "Username Intagram tidak valid. Tidak perlu diawali dengan @"
+      );
     } else if (!isNeedAgree) {
       setNeedLoading(false);
       setNeedMessageType("warning");
@@ -239,6 +251,7 @@ export default function FormMencariSection() {
                         onChange={(e) => setNeedName(e.target.value)}
                         style={{ width: "100%", paddingTop: "16px" }}
                         placeholder="Nama Lengkap Anda"
+                        label="Nama Lengkap"
                         id="name"
                       />
                     </FormControl>
@@ -347,6 +360,7 @@ export default function FormMencariSection() {
                         onChange={(e) => setNeedHospital(e.target.value)}
                         style={{ width: "100%", paddingTop: "16px" }}
                         placeholder="Rumah Sakit rujukan"
+                        label="Rumah Sakit"
                         id="hospital"
                       />
                     </FormControl>
@@ -370,12 +384,33 @@ export default function FormMencariSection() {
                     >
                       <TextField
                         value={needPhone}
-                        onChange={(e) => setNeedPhone(e.target.value)}
+                        onChange={(e) => {
+                          setNeedPhone(e.target.value);
+                          if (
+                            e.target.value[0] !== "+" ||
+                            e.target.value.length === 0
+                          ) {
+                            setIsValidWhatsapp(false);
+                          } else {
+                            setIsValidWhatsapp(true);
+                          }
+                        }}
                         style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Nomor Whatsapp"
+                        placeholder="+628xxxxxx"
+                        label="Nomor Whatsapp"
                         id="name"
                       />
                     </FormControl>
+                    {!isValidWhatsapp ? (
+                      <p
+                        style={{
+                          color: "#DA251C",
+                          marginTop: "32px",
+                        }}
+                      >
+                        Nomor whatsapp tidak valid. Mohon awali dengan +62
+                      </p>
+                    ) : null}
                   </GridItem>
 
                   <GridItem
@@ -390,12 +425,34 @@ export default function FormMencariSection() {
                     >
                       <TextField
                         value={needSocialMedia}
-                        onChange={(e) => setNeedSocialMedia(e.target.value)}
+                        onChange={(e) => {
+                          setNeedSocialMedia(e.target.value);
+                          if (
+                            e.target.value[0] === "@" ||
+                            e.target.value.length === 0
+                          ) {
+                            setIsValidInstagram(false);
+                          } else {
+                            setIsValidInstagram(true);
+                          }
+                        }}
                         style={{ width: "100%", paddingTop: "16px" }}
-                        placeholder="Username IG"
+                        placeholder="username"
+                        label="Username IG"
                         id="name"
                       />
                     </FormControl>
+                    {!isValidInstagram ? (
+                      <p
+                        style={{
+                          color: "#DA251C",
+                          marginTop: "32px",
+                        }}
+                      >
+                        Username Instagram tidak valid. Tidak perlu menggunakan
+                        @
+                      </p>
+                    ) : null}
                   </GridItem>
 
                   <GridItem
