@@ -34,7 +34,7 @@ export default function HowToMenjadiSection() {
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
-                <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                <GridItem xs={8} sm={8} md={6} className={classes.itemGrid}>
                   <img src={cari} alt="..." className={imageClasses} />
                 </GridItem>
                 <h4 className={classes.cardTitle}>Cari</h4>
@@ -48,7 +48,7 @@ export default function HowToMenjadiSection() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
-                <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                <GridItem xs={8} sm={8} md={6} className={classes.itemGrid}>
                   <img
                     src={infokan}
                     width="320px"
@@ -67,7 +67,7 @@ export default function HowToMenjadiSection() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
-                <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                <GridItem xs={8} sm={8} md={6} className={classes.itemGrid}>
                   <img src={bantu} alt="..." className={imageClasses} />
                 </GridItem>
                 <h4 className={classes.cardTitle}>Bantu</h4>

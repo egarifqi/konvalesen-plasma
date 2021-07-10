@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import bloodImage from "assets/img/surgeon-holding-blood-test 1.jpg";
+import { useMediaQuery } from "react-responsive";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/productStyle.js";
 
@@ -14,11 +15,23 @@ const useStyles = makeStyles(styles);
 
 export default function ProductSection() {
   const classes = useStyles();
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   return (
     <div className={classes.section}>
       <div>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem
+            xs={12}
+            sm={12}
+            md={6}
+            style={
+              isMobile
+                ? {
+                    marginTop: "-148px",
+                  }
+                : null
+            }
+          >
             <img src={bloodImage} width="100%" />
           </GridItem>
           <GridItem xs={12} sm={12} md={6}>
