@@ -24,6 +24,8 @@ import FormMencariSection from "./Sections/FormMencariSection.js";
 import FormMenjadiSection from "./Sections/FormMenjadiSection.js";
 import ListParticipantMobile from "./Sections/ListParticipantMobile.js";
 import Button from "components/CustomButtons/Button.js";
+import TablePendonor from "./Sections/TablePendonor.js";
+import TablePenerima from "./Sections/TablePenerima.js";
 import { useMediaQuery } from "react-responsive";
 
 const dashboardRoutes = [];
@@ -114,7 +116,7 @@ export default function LandingPage(props) {
               {isMobile ? (
                 <ListParticipantMobile type={showed} />
               ) : (
-                <div id="data"></div>
+                <TablePenerima />
               )}
               <FormMenjadiSection />
             </>
@@ -124,7 +126,7 @@ export default function LandingPage(props) {
               {isMobile ? (
                 <ListParticipantMobile type={showed} />
               ) : (
-                <div id="data"></div>
+                <TablePendonor />
               )}
               <FormMencariSection />
             </>

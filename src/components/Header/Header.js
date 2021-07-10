@@ -85,7 +85,10 @@ export default function Header(props) {
           )}
         </div>
         <Hidden smDown implementation="css">
-          {rightLinks}
+          <HeaderLinks
+            setShowed={rightLinks.props.setShowed}
+            handleDrawerToggle={handleDrawerToggle}
+          />
         </Hidden>
         <Hidden mdUp>
           <IconButton
