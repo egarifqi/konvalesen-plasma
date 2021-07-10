@@ -42,7 +42,7 @@ export default function ListParticipantMobile(props) {
   const [selectedKota, setSelectedKota] = useState(null);
   const [listProvinsi, setListProvinsi] = useState([]);
   const [listKota, setListKota] = useState([]);
-  const [listBloodType] = useState(["A", "B", "AB", "0"]);
+  const [listBloodType] = useState(["A", "B", "AB", "O"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const [selectedBloodType, setSelectedBloodType] = useState(null);
   const [selectedRhesus, setSelectedRhesus] = useState(null);
@@ -494,8 +494,8 @@ export default function ListParticipantMobile(props) {
                   }}
                 >
                   {type === "menjadi"
-                    ? "Mohon submit data nda dengan mengisi form di bawah ini agar Anda terdaftar sebagai pendonor"
-                    : "Mohon submit data Anda dengan mengisi form di bawah ini agar Anda terdaftar sebagai pencari donor"}
+                    ? "Mohon submit data Anda dengan mengisi form di bawah ini agar Anda terdaftar sebagai pendonor dan pencari donor dapat menemukan Anda"
+                    : "Mohon submit data Anda dengan mengisi form di bawah ini agar Anda terdaftar sebagai pencari donor dan pendonor dapat menemukan Anda"}
                 </p>
               </GridItem>
             ) : null}

@@ -64,7 +64,7 @@ export default function FormMencariSection() {
   const [isKomorbidOpen, setIsKomorbidOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [listBloodType] = useState(["A", "B", "AB", "0"]);
+  const [listBloodType] = useState(["A", "B", "AB", "O"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const [listProvinsi, setListProvinsi] = useState([]);
   const [pendonorExpanded, setPendonorExpanded] = useState(true);
