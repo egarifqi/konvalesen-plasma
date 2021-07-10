@@ -90,12 +90,16 @@ export default function ListParticipantMobile(props) {
       var filteredData = [];
       if (type === "menjadi") {
         dataMencari.forEach((item) => {
-          if (item.socialMedia[0] === "@") {
-            item.socialMedia = item.socialMedia.substring(1);
+          if (item.socialMedia) {
+            if (item.socialMedia[0] === "@") {
+              item.socialMedia = item.socialMedia.substring(1);
+            }
           }
 
-          if (item.phone[0] === "0") {
-            item.phone = "+62" + item.phone.substring(1);
+          if (item.phone) {
+            if (item.phone[0] === "0") {
+              item.phone = "+62" + item.phone.substring(1);
+            }
           }
 
           var diffSubmit = new DateDiff(new Date(), new Date(item.createdAt));
