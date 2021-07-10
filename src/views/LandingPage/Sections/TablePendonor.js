@@ -12,6 +12,8 @@ import IconButton from "@material-ui/core/IconButton";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import TablePagination from "@material-ui/core/TablePagination";
+import GridContainer from "components/Grid/GridContainer.js";
+import GridItem from "components/Grid/GridItem.js";
 import qoreContext from "qoreContext";
 import TableFilter from "./TableFilter";
 
@@ -111,70 +113,117 @@ export default function TablePendonor() {
           <CircularProgress />
         </div>
       ) : (
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell align="center">Kota</StyledTableCell>
-                <StyledTableCell align="center">Nama</StyledTableCell>
-                <StyledTableCell align="center">Golonga Darah</StyledTableCell>
-                <StyledTableCell align="center">Berat Badan</StyledTableCell>
-                <StyledTableCell align="center">Tanggal Sembuh</StyledTableCell>
-                <StyledTableCell align="center">Kontak</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {listPendonor.map((pendonor) => (
-                <StyledTableRow key={pendonor.id}>
-                  <StyledTableCell component="th" scope="row">
-                    {pendonor?.kota}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {pendonor?.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {`${pendonor?.bloodType} ${
-                      pendonor?.rhesus === "Positif" ? "+" : "-"
-                    }`}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {pendonor?.beratBadan}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {pendonor?.tanggalSembuh}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {pendonor.phone && (
-                      <IconButton
-                        href={`https://api.whatsapp.com/send?phone=${pendonor.phone}`}
-                        target="_blank"
-                      >
-                        <WhatsAppIcon />
-                      </IconButton>
-                    )}
-                    {pendonor.socialMedia && (
-                      <IconButton
-                        href={`https://www.instagram.com/${pendonor?.socialMedia}`}
-                        target="_blank"
-                      >
-                        <InstagramIcon />
-                      </IconButton>
-                    )}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={totalCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </TableContainer>
+        <>
+          {listPendonor.length !== 0 ? (
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="center">Kota</StyledTableCell>
+                    <StyledTableCell align="center">Nama</StyledTableCell>
+                    <StyledTableCell align="center">
+                      Golonga Darah
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      Berat Badan
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      Tanggal Sembuh
+                    </StyledTableCell>
+                    <StyledTableCell align="center">Kontak</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {listPendonor.map((pendonor) => (
+                    <StyledTableRow key={pendonor.id}>
+                      <StyledTableCell component="th" scope="row">
+                        {pendonor?.kota}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {pendonor?.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {`${pendonor?.bloodType} ${
+                          pendonor?.rhesus === "Positif" ? "+" : "-"
+                        }`}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {pendonor?.beratBadan}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {pendonor?.tanggalSembuh}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {pendonor.phone && (
+                          <IconButton
+                            href={`https://api.whatsapp.com/send?phone=${pendonor.phone}`}
+                            target="_blank"
+                          >
+                            <WhatsAppIcon />
+                          </IconButton>
+                        )}
+                        {pendonor.socialMedia && (
+                          <IconButton
+                            href={`https://www.instagram.com/${pendonor?.socialMedia}`}
+                            target="_blank"
+                          >
+                            <InstagramIcon />
+                          </IconButton>
+                        )}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={totalCount}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
+            </TableContainer>
+          ) : (
+            <GridContainer>
+              <GridItem
+                xs={12}
+                sm={12}
+                style={{
+                  border: "1px solid #da251c",
+                  padding: "16px",
+                  marginLeft: "16px",
+                  marginRight: "16px",
+                }}
+              >
+                <div style={{ textAlign: "center" }}>
+                  <h2
+                    style={{
+                      fontSize: "18px",
+                      margin: "0px",
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Maaf,
+                    <br />
+                    tidak ditemukan data yang sesuai.
+                  </h2>
+                  <p
+                    style={{
+                      color: "black",
+                      marginTop: "16px",
+                    }}
+                  >
+                    Mohon submit data Anda dengan mengisi form di bawah ini agar
+                    pendonor dapat menemukan Anda
+                  </p>
+                </div>
+              </GridItem>
+            </GridContainer>
+          )}
+        </>
       )}
     </>
   );
