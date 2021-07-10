@@ -108,7 +108,7 @@ export default function TableFilter(parent) {
           <Grid item xs={2}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="grouped-native-select">
-                Golonga Darah
+                Golongan Darah
               </InputLabel>
               <Select
                 native

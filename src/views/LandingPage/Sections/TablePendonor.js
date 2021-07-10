@@ -124,7 +124,7 @@ export default function TablePendonor() {
                     <StyledTableCell align="center">Kota</StyledTableCell>
                     <StyledTableCell align="center">Nama</StyledTableCell>
                     <StyledTableCell align="center">
-                      Golonga Darah
+                      Golongan Darah
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       Berat Badan
