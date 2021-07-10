@@ -7,6 +7,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import IconButton from "@material-ui/core/IconButton";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+import qoreContext from "qoreContext";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -26,18 +31,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
@@ -46,6 +39,9 @@ const useStyles = makeStyles({
 
 export default function TablePenerima() {
   const classes = useStyles();
+  const { data: listPenerima, status } = qoreContext
+    .view("allMencari")
+    .useListRow();
 
   return (
     <>
@@ -56,25 +52,56 @@ export default function TablePenerima() {
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-              <StyledTableCell align="right">Calories</StyledTableCell>
-              <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+              <StyledTableCell align="center">Kota</StyledTableCell>
+              <StyledTableCell align="center">Nama</StyledTableCell>
+              <StyledTableCell align="center">Golonga Darah</StyledTableCell>
+              <StyledTableCell align="center">Berat Badan</StyledTableCell>
+              <StyledTableCell align="center">Tanggal Sembuh</StyledTableCell>
+              <StyledTableCell align="center">Kontak</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {status !== "success" ? (
+              <CircularProgress />
+            ) : (
+              <>
+                {listPenerima.map((penerima) => (
+                  <StyledTableRow key={penerima.id}>
+                    <StyledTableCell component="th" scope="row">
+                      {penerima?.kota}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {penerima?.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {`${penerima?.bloodType} ${
+                        penerima?.rhesus === "Positif" ? "+" : "-"
+                      }`}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {penerima?.beratBadan}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {penerima?.tanggalSembuh}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <IconButton
+                        href={"https://www.instagram.com"}
+                        target="_blank"
+                      >
+                        <WhatsAppIcon />
+                      </IconButton>
+                      <IconButton
+                        href={"https://www.instagram.com"}
+                        target="_blank"
+                      >
+                        <InstagramIcon />
+                      </IconButton>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
