@@ -23,6 +23,8 @@ import HowToMencariSection from "./Sections/HowToMencariSection.js";
 import FormMencariSection from "./Sections/FormMencariSection.js";
 import FormMenjadiSection from "./Sections/FormMenjadiSection.js";
 import Button from "components/CustomButtons/Button.js";
+import TablePendonor from "./Sections/TablePendonor.js";
+import TablePenerima from "./Sections/TablePenerima.js";
 
 const dashboardRoutes = [];
 
@@ -92,11 +94,13 @@ export default function LandingPage(props) {
           {showed === "menjadi" ? (
             <>
               <HowToMenjadiSection />
+              <TablePenerima />
               <FormMenjadiSection />
             </>
           ) : (
             <>
               <HowToMencariSection />
+              <TablePendonor />
               <FormMencariSection />
             </>
           )}
