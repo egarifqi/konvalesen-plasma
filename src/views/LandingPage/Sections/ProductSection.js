@@ -32,7 +32,11 @@ export default function ProductSection() {
                 : null
             }
           >
-            <img src={bloodImage} width="100%" />
+            <img
+              src={bloodImage}
+              width="100%"
+              style={{ borderRadius: "8px" }}
+            />
           </GridItem>
           <GridItem xs={12} sm={12} md={6}>
             <h5
