@@ -15,11 +15,15 @@ import Drawer from "@material-ui/core/Drawer";
 import Menu from "@material-ui/icons/Menu";
 // core components
 import styles from "assets/jss/material-kit-react/components/headerStyle.js";
+import HeaderLinks from "./HeaderLinks";
+import logo from "assets/img/lifeline-logo.png";
+import logoBlack from "assets/img/lifeline-black.png";
 
 const useStyles = makeStyles(styles);
 
 export default function Header(props) {
   const classes = useStyles();
+  const [isSticky, setIsSticky] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   React.useEffect(() => {
     if (props.changeColorOnScroll) {
@@ -38,6 +42,7 @@ export default function Header(props) {
     const { color, changeColorOnScroll } = props;
     const windowsScrollTop = window.pageYOffset;
     if (windowsScrollTop > changeColorOnScroll.height) {
+      setIsSticky(true);
       document.body
         .getElementsByTagName("header")[0]
         .classList.remove(classes[color]);
@@ -45,6 +50,7 @@ export default function Header(props) {
         .getElementsByTagName("header")[0]
         .classList.add(classes[changeColorOnScroll.color]);
     } else {
+      setIsSticky(false);
       document.body
         .getElementsByTagName("header")[0]
         .classList.add(classes[color]);
@@ -53,7 +59,7 @@ export default function Header(props) {
         .classList.remove(classes[changeColorOnScroll.color]);
     }
   };
-  const { color, rightLinks, leftLinks, brand, fixed, absolute } = props;
+  const { color, rightLinks, leftLinks, fixed, absolute } = props;
   const appBarClasses = classNames({
     [classes.appBar]: true,
     [classes[color]]: color,
@@ -62,7 +68,7 @@ export default function Header(props) {
   });
   const brandComponent = (
     <Button className={classes.title}>
-      <strong>{brand}</strong>
+      <img src={!isSticky ? logo : logoBlack} alt="LIFELINE" width="148px" />
     </Button>
   );
   return (
@@ -103,7 +109,10 @@ export default function Header(props) {
         >
           <div className={classes.appResponsive}>
             {leftLinks}
-            {rightLinks}
+            <HeaderLinks
+              setShowed={rightLinks.props.setShowed}
+              handleDrawerToggle={handleDrawerToggle}
+            />
           </div>
         </Drawer>
       </Hidden>

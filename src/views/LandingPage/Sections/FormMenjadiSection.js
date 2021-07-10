@@ -32,6 +32,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
+import { useMediaQuery } from "react-responsive";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 
@@ -67,6 +68,7 @@ export default function FormMencariSection() {
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const [listProvinsi, setListProvinsi] = useState([]);
   const [pendonorExpanded, setPendonorExpanded] = useState(true);
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   const classes = useStyles();
 
   const { insertRow: insertBecomeRow } = qoreContext
@@ -242,20 +244,29 @@ export default function FormMencariSection() {
                   }
             }
           >
-            Saya ingin menjadi pendonor
+            <h2
+              className={classes.title}
+              style={
+                isMobile
+                  ? {
+                      fontSize: "16px",
+                      color: "white",
+                      margin: "0px",
+                    }
+                  : {
+                      fontSize: "24px",
+                      color: "white",
+                      margin: "0px",
+                    }
+              }
+            >
+              Form data pendonor
+            </h2>
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <GridContainer justify="center">
             <GridItem cs={12} sm={12} md={8}>
-              <h2
-                className={classes.title}
-                style={{
-                  fontSize: "24px",
-                }}
-              >
-                Form data menjadi pendonor
-              </h2>
               <form>
                 <GridContainer>
                   <GridItem

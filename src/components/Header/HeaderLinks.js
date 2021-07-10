@@ -28,22 +28,28 @@ export default function HeaderLinks(props) {
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         <Button
-          href="#pencari"
-          onClick={() => props.setShowed("mencari")}
+          href="#data"
+          onClick={() => {
+            props.setShowed("mencari"); 
+            props.handleDrawerToggle()}
+          }
           color="transparent"
           className={classes.navLink}
         >
-          <strong>Cari Pendonor</strong>
+          <strong>Cari Plasma</strong>
         </Button>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
-          href="#pendonor"
-          onClick={() => props.setShowed("menjadi")}
+          href="#data"
+          onClick={() => {
+            props.setShowed("menjadi"); 
+            props.handleDrawerToggle()}
+          }
           color="transparent"
           className={classes.navLink}
         >
-          <strong>Jadi Pendonor</strong>
+          <strong>Donor Plasma</strong>
         </Button>
       </ListItem>
     </List>

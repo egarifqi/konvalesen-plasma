@@ -186,15 +186,15 @@ export default function ListParticipantMobile(props) {
         "Hasil pencarian : " + filteredData.length + " hasil";
       setMessage(successMessage);
       setMessageType("filtered");
+      setIsSearched(true);
     }
 
-    setIsSearched(true);
     setIsLoading(false);
     setUsedData(filteredData);
   };
 
   return (
-    <div className={classes.section}>
+    <div className={classes.section} id="data">
       <>
         <div>
           <GridContainer>

@@ -27,6 +27,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
+import { useMediaQuery } from "react-responsive";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 
@@ -47,6 +48,7 @@ export default function FormMencariSection() {
   const [needMessageType, setNeedMessageType] = useState("");
   const [isNeedAgree, setIsNeedAgree] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
 
   const [listBloodType] = useState(["A", "B", "AB", "0"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
@@ -193,20 +195,29 @@ export default function FormMencariSection() {
                   }
             }
           >
-            Saya ingin mencari pendonor
+            <h2
+              className={classes.title}
+              style={
+                isMobile
+                  ? {
+                      fontSize: "16px",
+                      color: "white",
+                      margin: "0px",
+                    }
+                  : {
+                      fontSize: "24px",
+                      color: "white",
+                      margin: "0px",
+                    }
+              }
+            >
+              Form data pencari donor
+            </h2>
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <GridContainer justify="center">
             <GridItem cs={12} sm={12} md={8}>
-              <h2
-                className={classes.title}
-                style={{
-                  fontSize: "24px",
-                }}
-              >
-                Form data pencari donor
-              </h2>
               <form>
                 <GridContainer>
                   <GridItem
