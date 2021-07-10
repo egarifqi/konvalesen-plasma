@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function TableFilter() {
+export default function TableFilter(parent) {
   const classes = useStyles();
   const [needProvinsi, setNeedProvinsi] = useState("");
   const [needKota, setNeedKota] = useState("");
@@ -28,11 +28,18 @@ export default function TableFilter() {
   const [listNeedKota, setListNeedKota] = useState([]);
   const [listBloodType] = useState(["A", "B", "AB", "0"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
+  const { setFilter } = parent;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(needBloodType);
-    console.log(needRhesus);
+    const filter = {
+      provinsi: needProvinsi?.nama || "",
+      kota: needKota?.nama || "",
+      bloodType: needBloodType || "",
+      rhesus: needRhesus || "",
+    };
+    console.log(filter);
+    setFilter(filter);
   };
 
   useEffect(async () => {
@@ -145,7 +152,7 @@ export default function TableFilter() {
                 borderRadius: "10px",
               }}
             >
-              Search
+              CARI
             </Button>
           </Grid>
         </Grid>
