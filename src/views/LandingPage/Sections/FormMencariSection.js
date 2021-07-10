@@ -36,6 +36,7 @@ const useStyles = makeStyles(styles);
 export default function FormMencariSection() {
   const newLocal = null;
   const [needName, setNeedName] = useState(newLocal);
+  const [needHospital, setNeedHospital] = useState(newLocal);
   const [needPhone, setNeedPhone] = useState(newLocal);
   const [needSocialMedia, setNeedSocialMedia] = useState(newLocal);
   const [needBloodType, setNeedBloodType] = useState("");
@@ -97,7 +98,9 @@ export default function FormMencariSection() {
       needBloodType === null ||
       needRhesus === "" ||
       needProvinsi === "" ||
-      needKota === ""
+      needKota === "" ||
+      needHospital === "" ||
+      needHospital === null
     ) {
       setNeedLoading(false);
       setNeedMessageType("warning");
@@ -136,6 +139,7 @@ export default function FormMencariSection() {
         kota: needKota.nama,
         phone: needPhone,
         socialMedia: needSocialMedia,
+        rumahSakit: needHospital,
       };
 
       await insertNeedRow(item);
@@ -326,6 +330,26 @@ export default function FormMencariSection() {
                         )}
                       />
                     ) : null}
+                  </GridItem>
+
+                  <GridItem
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    style={{ margin: "16px 0px" }}
+                  >
+                    <FormControl
+                      className={classes.formControl}
+                      style={{ width: "100%", height: "48px" }}
+                    >
+                      <TextField
+                        value={needHospital}
+                        onChange={(e) => setNeedHospital(e.target.value)}
+                        style={{ width: "100%", paddingTop: "16px" }}
+                        placeholder="Rumah Sakit rujukan"
+                        id="hospital"
+                      />
+                    </FormControl>
                   </GridItem>
 
                   <GridItem xs={12} sm={12} md={12}>

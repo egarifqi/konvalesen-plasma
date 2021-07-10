@@ -8,12 +8,6 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import InstagramIcon from "@material-ui/icons/Instagram";
-import WhatsAppIcon from "@material-ui/icons/WhatsApp";
-import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Select from "@material-ui/core/Select";
@@ -21,12 +15,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Button from "components/CustomButtons/Button.js";
+import CardMobile from "./CardMobile.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/teamStyle.js";
 import qoreContext from "qoreContext";
 
 import PropTypes from "prop-types";
-import dateFormat from "dateformat";
 
 import axios from "axios";
 import DateDiff from "date-diff";
@@ -333,135 +327,7 @@ export default function ListParticipantMobile(props) {
                 {usedData.length > 0
                   ? usedData.map((item) => (
                       <GridItem key={item.id} xs={12} sm={12}>
-                        <Card
-                          className={classes.root}
-                          style={{
-                            margin: "16px 0px",
-                          }}
-                        >
-                          <CardContent style={{ padding: "16px" }}>
-                            <GridContainer spacing={3}>
-                              <GridItem
-                                xs={6}
-                                sm={6}
-                                style={{ background: "white" }}
-                              >
-                                <p
-                                  style={{
-                                    color: "black",
-                                    textAlign: "left",
-                                    marginBottom: "0px",
-                                  }}
-                                >
-                                  {item.name}
-                                </p>
-                                {type === "mencari" ? (
-                                  <p
-                                    style={{
-                                      color: "black",
-                                      textAlign: "left",
-                                      fontSize: "12px",
-                                    }}
-                                  >
-                                    <Tooltip title="Berat Badan">
-                                      <span>
-                                        <strong>Berat Badan</strong> :&nbsp;
-                                        {item.beratBadan} Kg
-                                      </span>
-                                    </Tooltip>
-                                    <br />
-                                    <Tooltip title="Tanggal Sembuh Covid19">
-                                      <span>
-                                        <strong>Tgl Sembuh</strong> :&nbsp;
-                                        {dateFormat(
-                                          item.tanggalSembuh,
-                                          "d mmm yy"
-                                        )}
-                                      </span>
-                                    </Tooltip>
-                                  </p>
-                                ) : null}
-                              </GridItem>
-                              <GridItem
-                                xs={2}
-                                sm={2}
-                                style={{
-                                  background: "white",
-                                  position: "relative",
-                                }}
-                              >
-                                <p
-                                  style={{
-                                    color: "black",
-                                    position: "absolute",
-                                    width: "100%",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                  }}
-                                >
-                                  {item.bloodType}
-                                  {item.rhesus === "Positif" ? "+" : "-"}
-                                </p>
-                              </GridItem>
-                              <GridItem
-                                xs={2}
-                                sm={2}
-                                style={{
-                                  background: "white",
-                                  position: "relative",
-                                }}
-                              >
-                                {item.phone !== "" ? (
-                                  <IconButton
-                                    href={
-                                      "https://api.whatsapp.com/send?phone=" +
-                                      item.phone
-                                    }
-                                    target="_blank"
-                                    style={{
-                                      position: "absolute",
-                                      width: "100%",
-                                      top: "50%",
-                                      left: "0",
-                                      color: "#DA251C",
-                                      transform: "translateY(-50%)",
-                                    }}
-                                  >
-                                    <WhatsAppIcon />
-                                  </IconButton>
-                                ) : null}
-                              </GridItem>
-                              <GridItem
-                                xs={2}
-                                sm={2}
-                                style={{
-                                  background: "white",
-                                  position: "relative",
-                                }}
-                              >
-                                {item.socialMedia !== "" ? (
-                                  <IconButton
-                                    href={
-                                      "https://www.instagram.com/" +
-                                      item.socialMedia
-                                    }
-                                    target="_blank"
-                                    style={{
-                                      position: "absolute",
-                                      width: "100%",
-                                      top: "50%",
-                                      left: "0",
-                                      color: "#DA251C",
-                                      transform: "translateY(-50%)",
-                                    }}
-                                  >
-                                    <InstagramIcon />
-                                  </IconButton>
-                                ) : null}
-                              </GridItem>
-                            </GridContainer>
-                          </CardContent>
-                        </Card>
+                        <CardMobile item={item} type={type} />
                       </GridItem>
                     ))
                   : null}
