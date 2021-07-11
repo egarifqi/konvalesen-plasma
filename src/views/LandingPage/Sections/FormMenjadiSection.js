@@ -42,8 +42,8 @@ export default function FormMencariSection() {
   const newLocal = null;
 
   const [becomeName, setBecomeName] = useState(newLocal);
-  const [becomePhone, setBecomePhone] = useState(newLocal);
-  const [becomeSocialMedia, setBecomeSocialMedia] = useState(newLocal);
+  const [becomePhone, setBecomePhone] = useState("");
+  const [becomeSocialMedia, setBecomeSocialMedia] = useState("");
   const [becomeBloodType, setBecomeBloodType] = useState("");
   const [becomeRhesus, setBecomeRhesus] = useState("");
   const [becomeProvinsi, setBecomeProvinsi] = useState("");
@@ -103,8 +103,9 @@ export default function FormMencariSection() {
     setListBecomeKota(tempListKota);
   }, [becomeProvinsi]);
 
-  async function submitMenjadiPendonor() {
-    setBecomeLoading(true);
+  const validation = () => {
+    let response = "valid";
+
     var jedaCovid = Math.floor((new Date() - becomeDate) / (3600 * 24 * 1000));
 
     if (
@@ -117,28 +118,16 @@ export default function FormMencariSection() {
       becomeDate === null ||
       becomeWeight === null
     ) {
-      setBecomeLoading(false);
-      setBecomeMessageType("warning");
-      setBecomeMessage("Mohon isi kolom data diri dengan lengkap");
+      response = "Mohon isi kolom data diri dengan lengkap";
     } else if (
       (becomePhone === null || becomePhone === "") &&
       (becomeSocialMedia === null || becomeSocialMedia === "")
     ) {
-      setBecomeLoading(false);
-      setBecomeMessageType("warning");
-      setBecomeMessage("Mohon isi setidaknya nomor Whatsapp atau username IG");
+      response = "Mohon isi setidaknya nomor Whatsapp atau username IG";
     } else if (becomeName.length < 5) {
-      setBecomeLoading(false);
-      setBecomeMessageType("warning");
-      setBecomeMessage("Mohon isi dengan nama lengkap Anda");
-    } else if (
-      becomePhone !== null &&
-      becomePhone !== "" &&
-      becomePhone.length < 10
-    ) {
-      setBecomeLoading(false);
-      setBecomeMessageType("warning");
-      setBecomeMessage("Mohon isi nomor Whatsapp Anda dengan benar");
+      response = "Mohon isi dengan nama lengkap Anda";
+    } else if (becomePhone.length < 10 && becomeSocialMedia.length <= 0) {
+      response = "Mohon isi nomor Whatsapp Anda dengan benar";
     } else if (
       jedaCovid < 14 ||
       jedaCovid > 90 ||
@@ -149,8 +138,6 @@ export default function FormMencariSection() {
       !isSembuh ||
       !isScreening
     ) {
-      setBecomeLoading(false);
-      setBecomeMessageType("warning");
       var warningMessage =
         "Mohon maaf, Anda tidak memenuhi kriteria sebagai pendonor. ";
       if (becomeWeight < 55) {
@@ -171,13 +158,34 @@ export default function FormMencariSection() {
           warningMessage +
           "Anda tidak memenuhi semua kondisi dari 5 kondisi di atas.";
       }
-      setBecomeMessage(warningMessage);
+      response = warningMessage;
     } else if (!isAgree) {
+      response = "Mohon setujui ketersediaan Anda dalam mensubmit data Anda";
+    }
+
+    if (becomePhone.length > 0) {
+      if (becomePhone.substring(0, 3) !== "+62") {
+        response = "Nomor Whatsapp tidak valid. Mohon awali dengan +62";
+      }
+    }
+
+    if (becomeSocialMedia.length > 0) {
+      if (becomeSocialMedia[0] === "@") {
+        response = "Username IG tidak valid. Mohon tidak diawali dengan @";
+      }
+    }
+
+    return response;
+  };
+
+  async function submitMenjadiPendonor() {
+    setBecomeLoading(true);
+
+    let response = validation();
+    if (response !== "valid") {
       setBecomeLoading(false);
       setBecomeMessageType("warning");
-      setBecomeMessage(
-        "Mohon setujui ketersediaan Anda dalam mensubmit data Anda"
-      );
+      setBecomeMessage(response);
     } else {
       var item = {
         name: becomeName,
@@ -448,8 +456,8 @@ export default function FormMencariSection() {
                         onChange={(e) => {
                           setBecomePhone(e.target.value);
                           if (
-                            e.target.value[0] !== "+" ||
-                            e.target.value.length === 0
+                            e.target.value.length > 0 &&
+                            e.target.value[0] !== "+"
                           ) {
                             setIsValidWhatsapp(false);
                           } else {
@@ -489,8 +497,8 @@ export default function FormMencariSection() {
                         onChange={(e) => {
                           setBecomeSocialMedia(e.target.value);
                           if (
-                            e.target.value[0] === "@" ||
-                            e.target.value.length === 0
+                            e.target.value.length > 0 &&
+                            e.target.value[0] === "@"
                           ) {
                             setIsValidInstagram(false);
                           } else {

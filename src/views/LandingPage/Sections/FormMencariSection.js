@@ -20,7 +20,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
-import qoreContext from "qoreContext";
+// import qoreContext from "qoreContext";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Dialog from "@material-ui/core/Dialog";
@@ -37,8 +37,8 @@ export default function FormMencariSection() {
   const newLocal = null;
   const [needName, setNeedName] = useState(newLocal);
   const [needHospital, setNeedHospital] = useState(newLocal);
-  const [needPhone, setNeedPhone] = useState(newLocal);
-  const [needSocialMedia, setNeedSocialMedia] = useState(newLocal);
+  const [needPhone, setNeedPhone] = useState("");
+  const [needSocialMedia, setNeedSocialMedia] = useState("");
   const [needBloodType, setNeedBloodType] = useState("");
   const [needRhesus, setNeedRhesus] = useState("");
   const [needProvinsi, setNeedProvinsi] = useState("");
@@ -59,9 +59,9 @@ export default function FormMencariSection() {
   const [pencariExpanded, setPencariExpanded] = useState(true);
   const classes = useStyles();
 
-  const { insertRow: insertNeedRow } = qoreContext
-    .view("allMencari")
-    .useInsertRow();
+  // const { insertRow: insertNeedRow } = qoreContext
+  //   .view("allMencari")
+  //   .useInsertRow();
 
   useEffect(async () => {
     var tempListProvinsi = [];
@@ -90,9 +90,8 @@ export default function FormMencariSection() {
     setListNeedKota(tempListKota);
   }, [needProvinsi]);
 
-  async function submitPencariDonor() {
-    setNeedLoading(true);
-
+  const validation = () => {
+    let response = "valid";
     if (
       needName === "" ||
       needName === null ||
@@ -104,47 +103,56 @@ export default function FormMencariSection() {
       needHospital === "" ||
       needHospital === null
     ) {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage("Mohon isi kolom data diri dengan lengkap");
+      response = "Mohon isi kolom data diri dengan lengkap";
     } else if (
       (needPhone === null || needPhone === "") &&
       (needSocialMedia === null || needSocialMedia === "")
     ) {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage("Mohon isi setidaknya nomor Whatsapp atau username IG");
+      response = "Mohon isi setidaknya nomor Whatsapp atau username IG";
     } else if (needName.length < 5) {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage("Mohon isi dengan nama lengkap Anda");
-    } else if (
-      needPhone !== null &&
-      needPhone !== "" &&
-      needPhone.length < 10
-    ) {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage("Mohon isi nomor Whatsapp Anda dengan benar");
+      response = "Mohon isi dengan nama lengkap Anda";
+    } else if (needPhone.length < 10 && needSocialMedia.length <= 0) {
+      response = "Mohon isi nomor Whatsapp Anda dengan benar";
     } else if (!isNeedAgree) {
+      response = "Mohon setujui ketersediaan Anda dalam mensubmit data Anda";
+    }
+
+    if (needPhone.length > 0) {
+      if (needPhone.substring(0, 3) !== "+62") {
+        response = "Nomor Whatsapp tidak valid. Mohon awali dengan +62";
+      }
+    }
+
+    if (needSocialMedia.length > 0) {
+      if (needSocialMedia[0] === "@") {
+        response = "Username IG tidak valid. Mohon tidak diawali dengan @";
+      }
+    }
+
+    return response;
+  };
+
+  async function submitPencariDonor() {
+    setNeedLoading(true);
+
+    var response = validation();
+    if (response !== "valid") {
       setNeedLoading(false);
       setNeedMessageType("warning");
-      setNeedMessage(
-        "Mohon setujui ketersediaan Anda dalam mensubmit data Anda"
-      );
+      setNeedMessage(response);
     } else {
-      var item = {
-        name: needName,
-        bloodType: needBloodType,
-        rhesus: needRhesus,
-        provinsi: needProvinsi.nama,
-        kota: needKota.nama,
-        phone: needPhone,
-        socialMedia: needSocialMedia,
-        rumahSakit: needHospital,
-      };
+      // var item = {
+      //   name: needName,
+      //   bloodType: needBloodType,
+      //   rhesus: needRhesus,
+      //   provinsi: needProvinsi.nama,
+      //   kota: needKota.nama,
+      //   phone: needPhone,
+      //   socialMedia: needSocialMedia,
+      //   rumahSakit: needHospital,
+      // };
 
-      await insertNeedRow(item);
+      // await insertNeedRow(item);
       setNeedLoading(false);
       setNeedMessage("Data berhasil disubmit");
       setNeedMessageType("success");
@@ -159,6 +167,9 @@ export default function FormMencariSection() {
     }
   }
 
+  console.log("check sosial media");
+  console.log(needSocialMedia.length);
+  console.log(needPhone.length > 0);
   return (
     <div className={classes.section}>
       <Accordion
@@ -377,8 +388,8 @@ export default function FormMencariSection() {
                         onChange={(e) => {
                           setNeedPhone(e.target.value);
                           if (
-                            e.target.value[0] !== "+" ||
-                            e.target.value.length === 0
+                            e.target.value.length > 0 &&
+                            e.target.value[0] !== "+"
                           ) {
                             setIsValidWhatsapp(false);
                           } else {
@@ -418,8 +429,8 @@ export default function FormMencariSection() {
                         onChange={(e) => {
                           setNeedSocialMedia(e.target.value);
                           if (
-                            e.target.value[0] === "@" ||
-                            e.target.value.length === 0
+                            e.target.value.length > 0 &&
+                            e.target.value[0] === "@"
                           ) {
                             setIsValidInstagram(false);
                           } else {
