@@ -167,9 +167,6 @@ export default function FormMencariSection() {
     }
   }
 
-  console.log("check sosial media");
-  console.log(needSocialMedia.length);
-  console.log(needPhone.length > 0);
   return (
     <div className={classes.section}>
       <Accordion
