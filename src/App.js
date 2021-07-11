@@ -12,7 +12,7 @@ var hist = createBrowserHistory();
 
 const App = () => {
   useEffect(() => {
-    ReactGa.initialize("UA-195242118-1");
+    ReactGa.initialize("UA-201612176-1");
     ReactGa.pageview(window.location.pathname + window.location.search);
   }, []);
 
