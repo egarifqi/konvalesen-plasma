@@ -26,7 +26,7 @@ export default function TableFilter(parent) {
   const [needRhesus, setNeedRhesus] = useState("");
   const [listProvinsi, setListProvinsi] = useState([]);
   const [listNeedKota, setListNeedKota] = useState([]);
-  const [listBloodType] = useState(["A", "B", "AB", "0"]);
+  const [listBloodType] = useState(["A", "B", "AB", "O"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const { setFilter } = parent;
 
