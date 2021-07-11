@@ -126,16 +126,6 @@ export default function FormMencariSection() {
       setNeedLoading(false);
       setNeedMessageType("warning");
       setNeedMessage("Mohon isi nomor Whatsapp Anda dengan benar");
-    } else if (needPhone.substring(0, 3) !== "+62") {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage("Nomor Whatsapp tidak valid. Mohon awali dengan +62");
-    } else if (needSocialMedia[0] === "@") {
-      setNeedLoading(false);
-      setNeedMessageType("warning");
-      setNeedMessage(
-        "Username Intagram tidak valid. Tidak perlu diawali dengan @"
-      );
     } else if (!isNeedAgree) {
       setNeedLoading(false);
       setNeedMessageType("warning");

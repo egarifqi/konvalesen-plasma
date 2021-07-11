@@ -139,16 +139,6 @@ export default function FormMencariSection() {
       setBecomeLoading(false);
       setBecomeMessageType("warning");
       setBecomeMessage("Mohon isi nomor Whatsapp Anda dengan benar");
-    } else if (becomePhone.substring(0, 3) !== "+62") {
-      setBecomeLoading(false);
-      setBecomeMessageType("warning");
-      setBecomeMessage("Nomor Whatsapp tidak valid. Mohon awali dengan +62");
-    } else if (becomeSocialMedia[0] === "@") {
-      setBecomeLoading(false);
-      setBecomeMessageType("warning");
-      setBecomeMessage(
-        "Username Intagram tidak valid. Tidak perlu diawali dengan @"
-      );
     } else if (
       jedaCovid < 14 ||
       jedaCovid > 90 ||
