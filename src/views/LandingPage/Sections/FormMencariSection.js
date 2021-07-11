@@ -20,7 +20,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
-// import qoreContext from "qoreContext";
+import qoreContext from "qoreContext";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Dialog from "@material-ui/core/Dialog";
@@ -59,9 +59,9 @@ export default function FormMencariSection() {
   const [pencariExpanded, setPencariExpanded] = useState(true);
   const classes = useStyles();
 
-  // const { insertRow: insertNeedRow } = qoreContext
-  //   .view("allMencari")
-  //   .useInsertRow();
+  const { insertRow: insertNeedRow } = qoreContext
+    .view("allMencari")
+    .useInsertRow();
 
   useEffect(async () => {
     var tempListProvinsi = [];
@@ -141,18 +141,18 @@ export default function FormMencariSection() {
       setNeedMessageType("warning");
       setNeedMessage(response);
     } else {
-      // var item = {
-      //   name: needName,
-      //   bloodType: needBloodType,
-      //   rhesus: needRhesus,
-      //   provinsi: needProvinsi.nama,
-      //   kota: needKota.nama,
-      //   phone: needPhone,
-      //   socialMedia: needSocialMedia,
-      //   rumahSakit: needHospital,
-      // };
+      var item = {
+        name: needName,
+        bloodType: needBloodType,
+        rhesus: needRhesus,
+        provinsi: needProvinsi.nama,
+        kota: needKota.nama,
+        phone: needPhone,
+        socialMedia: needSocialMedia,
+        rumahSakit: needHospital,
+      };
 
-      // await insertNeedRow(item);
+      await insertNeedRow(item);
       setNeedLoading(false);
       setNeedMessage("Data berhasil disubmit");
       setNeedMessageType("success");
