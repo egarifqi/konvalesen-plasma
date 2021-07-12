@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
 export default function TableFilter(parent) {
   const classes = useStyles();
   const [needProvinsi, setNeedProvinsi] = useState("");
-  const [needKota, setNeedKota] = useState("");
+  const [needKota, setNeedKota] = useState([]);
   const [needBloodType, setNeedBloodType] = useState("");
   const [needRhesus, setNeedRhesus] = useState("");
   const [listProvinsi, setListProvinsi] = useState([]);
