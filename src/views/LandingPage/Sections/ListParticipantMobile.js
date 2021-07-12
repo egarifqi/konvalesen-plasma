@@ -30,23 +30,29 @@ const useStyles = makeStyles(styles);
 export default function ListParticipantMobile(props) {
   const classes = useStyles();
   const [type, setType] = useState(null);
-  const [usedData, setUsedData] = useState([]);
   const [allData, setAllData] = useState([]);
   const [selectedProvinsi, setSelectedProvinsi] = useState(null);
-  const [selectedKota, setSelectedKota] = useState(null);
+  const [selectedKota, setSelectedKota] = useState([]);
   const [listProvinsi, setListProvinsi] = useState([]);
   const [listKota, setListKota] = useState([]);
   const [listBloodType] = useState(["A", "B", "AB", "O"]);
   const [listRhesus] = useState(["Positif", "Negatif"]);
   const [selectedBloodType, setSelectedBloodType] = useState(null);
   const [selectedRhesus, setSelectedRhesus] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSearched, setIsSearched] = useState(false);
-  const [messageType, setMessageType] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [filterProps, setFilterProps] = useState({
+    provinsi: "",
+    kota: [],
+    bloodType: "",
+    rhesus: "",
+  });
 
-  const { data: dataMencari } = qoreContext.view("allMencari").useListRow();
-  const { data: dataMenjadi } = qoreContext.view("allMenjadi").useListRow();
+  const { data: dataMencari } = qoreContext.view("allMencari").useListRow({
+    ...filterProps,
+  });
+  const { data: dataMenjadi } = qoreContext.view("allMenjadi").useListRow({
+    ...filterProps,
+  });
 
   useEffect(async () => {
     var tempListProvinsi = [];
@@ -109,7 +115,6 @@ export default function ListParticipantMobile(props) {
         );
 
         setAllData(sortedDataMencari);
-        setUsedData([]);
       } else {
         dataMenjadi.forEach((item) => {
           if (item.socialMedia) {
@@ -142,53 +147,33 @@ export default function ListParticipantMobile(props) {
         );
 
         setAllData(sortedDataMenjadi);
-        setUsedData([]);
       }
     }
   }, [dataMencari, dataMenjadi, type]);
 
-  useEffect(() => {
-    setUsedData([]);
-    setMessage("");
-    setIsSearched(false);
-  }, [type]);
+  const handleFilter = () => {
+    let kotaArray = [];
 
-  const submitFilter = () => {
-    setIsLoading(true);
-    let filteredData = [];
-    if (
-      !selectedProvinsi ||
-      !selectedKota ||
-      !selectedBloodType ||
-      !selectedRhesus
-    ) {
-      setMessage("Mohon lengkapi data pencarian");
-      setMessageType("warning");
-    } else {
-      var selectedKotaNameOnly = selectedKota.map((item) => item.nama);
-      allData.forEach((item) => {
-        if (
-          selectedKotaNameOnly.indexOf(item.kota) !== -1 &&
-          item.bloodType === selectedBloodType &&
-          item.rhesus === selectedRhesus
-        ) {
-          filteredData.push(item);
-        }
-      });
-
-      let successMessage =
-        "Hasil pencarian : " + filteredData.length + " hasil";
-      setMessage(successMessage);
-      setMessageType("filtered");
-      setIsSearched(true);
+    if (selectedKota.length > 0) {
+      kotaArray = selectedKota.map((kota) => kota.nama);
     }
 
-    setIsLoading(false);
-    setUsedData(filteredData);
+    const filter = {
+      provinsi: selectedProvinsi?.nama || "",
+      kota: kotaArray,
+      bloodType: selectedBloodType || "",
+      rhesus: selectedRhesus || "",
+    };
+
+    setFilterProps(filter);
   };
 
   return (
-    <div className={classes.section} id="data">
+    <div
+      className={classes.section}
+      style={{ paddingTop: 0, paddingBottom: 0 }}
+      id="data"
+    >
       <>
         <div>
           <GridContainer>
@@ -204,135 +189,140 @@ export default function ListParticipantMobile(props) {
                   : "Temukan Pendonor"}
               </h2>
             </GridItem>
-
-            <GridItem xs={12} sm={12} md={12} style={{ margin: "16px 0px" }}>
-              <Autocomplete
-                id="combo-box-demo"
-                options={listProvinsi}
-                getOptionLabel={(option) => option.nama}
-                style={{ width: "100%" }}
-                onChange={(e, newValue) => setSelectedProvinsi(newValue)}
-                value={selectedProvinsi}
-                renderInput={(params) => (
-                  <TextField {...params} label="Provinsi" />
+            {isFiltered ? (
+              <>
+                <GridItem
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{ margin: "16px 0px" }}
+                >
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={listProvinsi}
+                    getOptionLabel={(option) => option.nama}
+                    style={{ width: "100%" }}
+                    onChange={(e, newValue) => setSelectedProvinsi(newValue)}
+                    value={selectedProvinsi}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Provinsi" />
+                    )}
+                  />
+                </GridItem>
+                {selectedProvinsi && (
+                  <GridItem
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    style={{ margin: "16px 0px" }}
+                  >
+                    <Autocomplete
+                      multiple
+                      id="combo-box-demo"
+                      options={listKota}
+                      getOptionLabel={(option) => option.nama}
+                      style={{ width: "100%" }}
+                      onChange={(e, newValue) => setSelectedKota(newValue)}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Kabupaten/Kota" />
+                      )}
+                    />
+                  </GridItem>
                 )}
-              />
-            </GridItem>
-
-            {selectedProvinsi ? (
-              <GridItem xs={12} sm={12} md={12} style={{ margin: "16px 0px" }}>
-                <Autocomplete
-                  multiple
-                  id="combo-box-demo"
-                  options={listKota}
-                  getOptionLabel={(option) => option.nama}
-                  style={{ width: "100%" }}
-                  onChange={(e, newValue) => setSelectedKota(newValue)}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Kabupaten/Kota" />
-                  )}
-                />
+                <GridItem xs={6} sm={6} md={6} style={{ margin: "16px 0px" }}>
+                  <FormControl
+                    className={classes.formControl}
+                    style={{ width: "100%" }}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      Golongan Darah
+                    </InputLabel>
+                    <Select
+                      value={selectedBloodType}
+                      onChange={(e) => setSelectedBloodType(e.target.value)}
+                    >
+                      {listBloodType.map((item, index) => (
+                        <MenuItem key={index} value={item}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </GridItem>
+                <GridItem xs={6} sm={6} md={6} style={{ margin: "16px 0px" }}>
+                  <FormControl
+                    className={classes.formControl}
+                    style={{ width: "100%" }}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      Rhesus
+                    </InputLabel>
+                    <Select
+                      value={selectedRhesus}
+                      onChange={(e) => setSelectedRhesus(e.target.value)}
+                    >
+                      {listRhesus.map((item, index) => (
+                        <MenuItem key={index} value={item}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={12}>
+                  <Button
+                    color="primary"
+                    style={{
+                      width: "100%",
+                      background: "#DA251C",
+                      color: "white",
+                      marginTop: "8px",
+                      marginBottom: "16px",
+                      borderRadius: "10px",
+                    }}
+                    onClick={handleFilter}
+                  >
+                    Cari Data
+                  </Button>
+                </GridItem>
+              </>
+            ) : (
+              <GridItem xs={12} sm={12} md={12}>
+                <Button
+                  color="primary"
+                  style={{
+                    width: "100%",
+                    background: "#DA251C",
+                    color: "white",
+                    marginTop: "8px",
+                    marginBottom: "16px",
+                    borderRadius: "10px",
+                  }}
+                  onClick={() => setIsFiltered(true)}
+                >
+                  Filter Data
+                </Button>
               </GridItem>
-            ) : null}
-            <GridItem xs={6} sm={6} md={6} style={{ margin: "16px 0px" }}>
-              <FormControl
-                className={classes.formControl}
-                style={{ width: "100%" }}
-              >
-                <InputLabel id="demo-simple-select-label">
-                  Golongan Darah
-                </InputLabel>
-                <Select
-                  value={selectedBloodType}
-                  onChange={(e) => setSelectedBloodType(e.target.value)}
-                >
-                  {listBloodType.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem xs={6} sm={6} md={6} style={{ margin: "16px 0px" }}>
-              <FormControl
-                className={classes.formControl}
-                style={{ width: "100%" }}
-              >
-                <InputLabel id="demo-simple-select-label">Rhesus</InputLabel>
-                <Select
-                  value={selectedRhesus}
-                  onChange={(e) => setSelectedRhesus(e.target.value)}
-                >
-                  {listRhesus.map((item, index) => (
-                    <MenuItem key={index} value={item}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <Button
-                color="primary"
-                style={{
-                  width: "100%",
-                  background: "#DA251C",
-                  color: "white",
-                  marginTop: "8px",
-                  marginBottom: "16px",
-                  borderRadius: "10px",
-                }}
-                onClick={() => {
-                  !isLoading ? submitFilter() : null;
-                }}
-              >
-                {isLoading ? "Loading..." : "Cari Data"}
-              </Button>
-              {message !== "" ? (
-                <p
-                  style={
-                    messageType === "warning"
-                      ? {
-                          color: "#DA251C",
-                          width: "100%",
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          marginBottom: "64px",
-                          marginTop: "8px",
-                        }
-                      : {
-                          color: "green",
-                          width: "100%",
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          marginBottom: "64px",
-                          marginTop: "8px",
-                        }
-                  }
-                >
-                  {message}
-                </p>
-              ) : null}
-            </GridItem>
-            {usedData.length > 0 ? (
+            )}
+            {allData.length > 0 ? (
               <div
                 style={{
                   maxHeight: "70vh",
                   overflowY: "auto",
                   width: "100%",
                   background: "rgba(0,0,0,0.4)",
+                  marginTop: "24px",
                 }}
               >
-                {usedData.length > 0
-                  ? usedData.map((item) => (
+                {allData.length > 0
+                  ? allData.map((item) => (
                       <GridItem key={item.id} xs={12} sm={12}>
                         <CardMobile item={item} type={type} />
                       </GridItem>
                     ))
                   : null}
               </div>
-            ) : isSearched ? (
+            ) : (
               <GridItem
                 xs={12}
                 sm={12}
@@ -364,7 +354,7 @@ export default function ListParticipantMobile(props) {
                     : "Mohon submit data Anda dengan mengisi form di bawah ini agar Anda terdaftar sebagai pencari donor dan pendonor dapat menemukan Anda"}
                 </p>
               </GridItem>
-            ) : null}
+            )}
           </GridContainer>
         </div>
       </>

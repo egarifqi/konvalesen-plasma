@@ -52,6 +52,13 @@ export default function ListParticipantMobile(props) {
               >
                 <Tooltip title="Berat Badan">
                   <span>
+                    <strong>Kota</strong> :&nbsp;
+                    {props.item.kota}
+                  </span>
+                </Tooltip>
+                <br />
+                <Tooltip title="Berat Badan">
+                  <span>
                     <strong>Berat Badan</strong> :&nbsp;
                     {props.item.beratBadan} Kg
                   </span>
@@ -72,6 +79,13 @@ export default function ListParticipantMobile(props) {
                   fontSize: "12px",
                 }}
               >
+                <Tooltip title="Berat Badan">
+                  <span>
+                    <strong>Kota</strong> :&nbsp;
+                    {props.item.kota}
+                  </span>
+                </Tooltip>
+                <br />
                 <Tooltip title="Rumah Sakit RUjukan">
                   <span>
                     <strong>Rumah Sakit</strong> :&nbsp;
@@ -102,15 +116,15 @@ export default function ListParticipantMobile(props) {
               {props.item.rhesus === "Positif" ? "+" : "-"}
             </p>
           </GridItem>
-          <GridItem
-            xs={2}
-            sm={2}
-            style={{
-              background: "white",
-              position: "relative",
-            }}
-          >
-            {props.item.phone !== "" ? (
+          {props.item.phone && (
+            <GridItem
+              xs={props.item.socialMedia ? 2 : 4}
+              sm={props.item.socialMedia ? 2 : 4}
+              style={{
+                background: "white",
+                position: "relative",
+              }}
+            >
               <IconButton
                 href={"https://api.whatsapp.com/send?phone=" + props.item.phone}
                 target="_blank"
@@ -125,17 +139,17 @@ export default function ListParticipantMobile(props) {
               >
                 <WhatsAppIcon />
               </IconButton>
-            ) : null}
-          </GridItem>
-          <GridItem
-            xs={2}
-            sm={2}
-            style={{
-              background: "white",
-              position: "relative",
-            }}
-          >
-            {props.item.socialMedia !== "" ? (
+            </GridItem>
+          )}
+          {props.item.socialMedia && (
+            <GridItem
+              xs={props.item.phone ? 2 : 4}
+              sm={props.item.phone ? 2 : 4}
+              style={{
+                background: "white",
+                position: "relative",
+              }}
+            >
               <IconButton
                 href={"https://www.instagram.com/" + props.item.socialMedia}
                 target="_blank"
@@ -150,8 +164,8 @@ export default function ListParticipantMobile(props) {
               >
                 <InstagramIcon />
               </IconButton>
-            ) : null}
-          </GridItem>
+            </GridItem>
+          )}
         </GridContainer>
       </CardContent>
     </Card>
