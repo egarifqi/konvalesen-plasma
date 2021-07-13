@@ -16,6 +16,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Button from "components/CustomButtons/Button.js";
 import CardMobile from "./CardMobile.js";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/teamStyle.js";
 import qoreContext from "qoreContext";
@@ -40,6 +41,10 @@ export default function ListParticipantMobile(props) {
   const [selectedBloodType, setSelectedBloodType] = useState(null);
   const [selectedRhesus, setSelectedRhesus] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
+  const [needCurrentLimit, setNeedCurrentLimit] = useState(20);
+  const [becomeCurrentLimit, setBecomeCurrentLimit] = useState(20);
+  const [isNeedHasMore, setIsNeedHasMore] = useState(true);
+  const [isBecomeHasMore, setIsBecomeHasMore] = useState(true);
   const [filterProps, setFilterProps] = useState({
     provinsi: "",
     kota: [],
@@ -48,9 +53,11 @@ export default function ListParticipantMobile(props) {
   });
 
   const { data: dataMencari } = qoreContext.view("allMencari").useListRow({
+    limit: needCurrentLimit,
     ...filterProps,
   });
   const { data: dataMenjadi } = qoreContext.view("allMenjadi").useListRow({
+    limit: becomeCurrentLimit,
     ...filterProps,
   });
 
@@ -167,6 +174,32 @@ export default function ListParticipantMobile(props) {
 
     setFilterProps(filter);
   };
+
+  const fetchMoreData = () => {
+    if (type === "menjadi") {
+      if (allData.length < needCurrentLimit) {
+        setIsNeedHasMore(false);
+        return;
+      }
+
+      setNeedCurrentLimit(needCurrentLimit + 20);
+    } else {
+      if (allData.length < becomeCurrentLimit) {
+        setIsBecomeHasMore(false);
+        return;
+      }
+
+      setBecomeCurrentLimit(becomeCurrentLimit + 20);
+    }
+  };
+
+  useEffect(() => {
+    if (type === "menjadi") {
+      setNeedCurrentLimit(20);
+    } else {
+      setBecomeCurrentLimit(20);
+    }
+  }, [filterProps]);
 
   return (
     <div
@@ -305,22 +338,32 @@ export default function ListParticipantMobile(props) {
               </GridItem>
             )}
             {allData.length > 0 ? (
-              <div
-                style={{
-                  maxHeight: "70vh",
-                  overflowY: "auto",
-                  width: "100%",
-                  background: "rgba(0,0,0,0.4)",
-                  marginTop: "24px",
-                }}
-              >
-                {allData.length > 0
-                  ? allData.map((item) => (
-                      <GridItem key={item.id} xs={12} sm={12}>
-                        <CardMobile item={item} type={type} />
-                      </GridItem>
-                    ))
-                  : null}
+              <div style={{ width: "100%" }}>
+                <InfiniteScroll
+                  dataLength={allData.length}
+                  next={fetchMoreData}
+                  hasMore={type === "menjadi" ? isNeedHasMore : isBecomeHasMore}
+                  loader={<h4>Loading...</h4>}
+                  height="70vh"
+                  style={{
+                    width: "100%",
+                    background: "rgba(0,0,0,0.4)",
+                    marginTop: "24px",
+                  }}
+                  endMessage={
+                    <p style={{ textAlign: "center" }}>
+                      <b>Anda sudah melihat semua data</b>
+                    </p>
+                  }
+                >
+                  {allData.length > 0
+                    ? allData.map((item) => (
+                        <GridItem key={item.id} xs={12} sm={12}>
+                          <CardMobile item={item} type={type} />
+                        </GridItem>
+                      ))
+                    : null}
+                </InfiniteScroll>
               </div>
             ) : (
               <GridItem
