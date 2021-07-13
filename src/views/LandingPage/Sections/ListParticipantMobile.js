@@ -182,6 +182,7 @@ export default function ListParticipantMobile(props) {
         .readRows({
           offset: allData.length,
           limit: 20,
+          ...filterProps,
         })
         .toPromise();
 
@@ -193,6 +194,7 @@ export default function ListParticipantMobile(props) {
         .readRows({
           offset: allData.length,
           limit: 20,
+          ...filterProps,
         })
         .toPromise();
 
@@ -208,6 +210,7 @@ export default function ListParticipantMobile(props) {
         .readRows({
           offset: allData.length,
           limit: 20,
+          ...filterProps,
         })
         .toPromise();
 
@@ -219,6 +222,7 @@ export default function ListParticipantMobile(props) {
         .readRows({
           offset: allData.length,
           limit: 20,
+          ...filterProps,
         })
         .toPromise();
 
