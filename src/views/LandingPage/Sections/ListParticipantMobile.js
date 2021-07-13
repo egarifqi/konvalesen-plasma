@@ -41,8 +41,8 @@ export default function ListParticipantMobile(props) {
   const [selectedBloodType, setSelectedBloodType] = useState(null);
   const [selectedRhesus, setSelectedRhesus] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
-  const [needCurrentLimit, setNeedCurrentLimit] = useState(20);
-  const [becomeCurrentLimit, setBecomeCurrentLimit] = useState(20);
+  const [needCurrentLimit] = useState(20);
+  const [becomeCurrentLimit] = useState(20);
   const [isNeedHasMore, setIsNeedHasMore] = useState(true);
   const [isBecomeHasMore, setIsBecomeHasMore] = useState(true);
   const [filterProps, setFilterProps] = useState({
@@ -175,29 +175,55 @@ export default function ListParticipantMobile(props) {
     setFilterProps(filter);
   };
 
-  const fetchMoreData = () => {
+  const fetchMoreData = async () => {
     if (type === "menjadi") {
-      if (allData.length < needCurrentLimit) {
-        setIsNeedHasMore(false);
-        return;
-      }
+      const { data } = await qoreContext.client
+        .view("allMencari")
+        .readRows({
+          offset: allData.length,
+          limit: 20,
+        })
+        .toPromise();
 
-      setNeedCurrentLimit(needCurrentLimit + 20);
+      setIsNeedHasMore(data.nodes.length === 20);
+      setAllData(allData.concat(data.nodes));
     } else {
-      if (allData.length < becomeCurrentLimit) {
-        setIsBecomeHasMore(false);
-        return;
-      }
+      const { data } = await qoreContext.client
+        .view("allMenjadi")
+        .readRows({
+          offset: allData.length,
+          limit: 20,
+        })
+        .toPromise();
 
-      setBecomeCurrentLimit(becomeCurrentLimit + 20);
+      setIsBecomeHasMore(data.nodes.length === 20);
+      setAllData(allData.concat(data.nodes));
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     if (type === "menjadi") {
-      setNeedCurrentLimit(20);
+      const { data } = await qoreContext.client
+        .view("allMencari")
+        .readRows({
+          offset: allData.length,
+          limit: 20,
+        })
+        .toPromise();
+
+      setIsNeedHasMore(data.nodes.length === 20);
+      setAllData(data.nodes);
     } else {
-      setBecomeCurrentLimit(20);
+      const { data } = await qoreContext.client
+        .view("allMenjadi")
+        .readRows({
+          offset: allData.length,
+          limit: 20,
+        })
+        .toPromise();
+
+      setIsBecomeHasMore(data.nodes.length === 20);
+      setAllData(data.nodes);
     }
   }, [filterProps]);
 
